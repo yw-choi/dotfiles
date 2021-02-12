@@ -8,6 +8,7 @@ else
     brew update
 fi
 
+brew install node
 brew install git
 brew install vim
 brew install bat
