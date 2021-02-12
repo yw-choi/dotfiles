@@ -4,8 +4,8 @@ set nu
 set wildmode=longest:full,full
 set wildmenu
 
-nnoremap <C-l> "=strftime("%c")<CR>P
-inoremap <C-l> <C-R>=strftime("%c")<CR>
+nnoremap <C-i> "=strftime("%c")<CR>P
+inoremap <C-i> <C-R>=strftime("%c")<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts

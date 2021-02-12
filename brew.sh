@@ -13,4 +13,4 @@ brew install git
 brew install vim
 brew install bat
 brew install fd
-
+brew install gh

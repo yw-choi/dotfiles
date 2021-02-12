@@ -16,7 +16,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'ervandew/supertab'
 
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-commentary'
@@ -31,4 +31,7 @@ let g:vim_markdown_folding_disabled = 1
 let g:mkdp_markdown_css = '~/.vim/assets/github-markdown.css'
 
 let g:python_recommended_style = 0
+
+let g:SuperTabDefaultCompletionType = "<c-n>"
+let g:SuperTabContextDefaultCompletionType = "<c-n>"
 
