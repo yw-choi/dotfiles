@@ -1,0 +1,11 @@
+# This is Git's per-user configuration file.
+[user]
+	name = Young Woo Choi
+	email = ywchoi.ys@gmail.com
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[init]
+	defaultBranch = master
