@@ -25,7 +25,6 @@ alias py=python
 alias gp='git push origin master'
 alias gc='git commit -a -m'
 alias ga='git add -f'
-alias vmd='vim +MarkdownPreview'
 
 export EDITOR=vim
 
@@ -39,3 +38,4 @@ elif [[ "$HOSTNAME" = "login"* ]]; then
   source ~/.zshrc.nurion
 fi
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

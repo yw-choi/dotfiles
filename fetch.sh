@@ -9,7 +9,7 @@ done
 
 rsync -avzh ~/.gitconfig ./gitconfig
 rsync -avzh ~/.vimrc ./vimrc
-rsync -avzh ~/.vim/vimrcs ./vim
 rsync -avzh ~/.vim/assets ./vim
 rsync -avzh ~/.vim/spell  ./vim
+rsync -avzh ~/.vim/colors ./vim
 
