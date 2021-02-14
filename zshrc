@@ -25,7 +25,7 @@ alias py=python
 alias gp='git push origin master'
 alias gc='git commit -a -m'
 alias ga='git add -f'
-
+alias vimd="vim -c 'MarkdownPreview'"
 export EDITOR=vim
 
 # host-dependent configs
@@ -38,4 +38,10 @@ elif [[ "$HOSTNAME" = "login"* ]]; then
   source ~/.zshrc.nurion
 fi
 
+if type "fd" > /dev/null; then
+  export FZF_DEFAULT_COMMAND='fd --type f'
+fi
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
