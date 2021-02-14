@@ -34,6 +34,12 @@ set colorcolumn=80
 set signcolumn=yes
 set wildmenu
 
+" Delete trailing white space on save, useful for some filetypes ;)
+autocmd FileType fortran,python,markdown autocmd BufWritePre <buffer> %s/\s\+$//e
+
+" Return to last edit position when opening files (You want this!)
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
 "=========="
 " vim-plug "
 "=========="
@@ -72,8 +78,20 @@ call plug#end()
 "=========="
 " Mappings "
 "=========="
-nnoremap <C-i><C-d> "=strftime("%c")<CR>P
-inoremap <C-i><C-d> <C-R>=strftime("%c")<CR>
+nnoremap <C-i><C-d> "=strftime("%Y/%m/%d %a")<CR>P
+inoremap <C-i><C-d> <C-R>=strftime("%Y/%m/%d %a")<CR>
+nnoremap <C-i><C-t> "=strftime("%H:%M")<CR>P
+inoremap <C-i><C-t> <C-R>=strftime("%H:%M")<CR>
+
+" Buffers
+" Close the current buffer
+map <leader>bd :Bclose<cr>:tabclose<cr>gT
+
+" Close all the buffers
+map <leader>ba :bufdo bd<cr>
+
+map <leader>l :bnext<cr>
+map <leader>h :bprevious<cr>
 
 " Clear search highlights
 map <silent> <leader><cr> :noh<cr>
