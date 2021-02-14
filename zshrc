@@ -18,16 +18,8 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# set -o vi
-bindkey -v
-export PATH=~/local/bin:${PATH}
-alias l='ls -l'
-alias py=python
-alias gp='git push origin master'
-alias gc='git commit -a -m'
-alias ga='git add -f'
-alias vimd="vim -c 'MarkdownPreview'"
 export EDITOR=vim
+bindkey -v
 
 # host-dependent configs
 HOSTNAME=$(hostname)
@@ -39,6 +31,17 @@ elif [[ "$HOSTNAME" = "login"* ]]; then
   source ~/.zshrc.nurion
 fi
 
+export PATH=~/local/bin:${PATH}
+
+# common aliases
+alias l='ls -l'
+alias py=python
+alias gp='git push origin'
+alias gc='git commit -a -m'
+alias ga='git add -f'
+alias vimd="vim -c 'MarkdownPreview'"
+
+# fzf configs
 if type "fd" > /dev/null; then
   export FZF_DEFAULT_COMMAND='fd --type f'
 fi
