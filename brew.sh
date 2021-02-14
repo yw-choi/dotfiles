@@ -14,3 +14,6 @@ brew install vim
 brew install bat
 brew install fd
 brew install gh
+brew install ripgrep
+brew install the_silver_searcher
+

@@ -8,7 +8,10 @@ do
 done
 
 rsync -avzh ~/.gitconfig ./gitconfig
+
 rsync -avzh ~/.vimrc ./vimrc
-rsync -avzh ~/.vim/assets ./vim
-rsync -avzh ~/.vim/spell  ./vim
+
+for d in assets spell plugin ; do
+  rsync -avzh ~/.vim/${d} ./vim
+done
 
