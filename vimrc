@@ -52,7 +52,6 @@ call plug#begin('~/.vim/plugged')
 " Make sure you use single quotes
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-" Plug 'ervandew/supertab'
 
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-commentary'
@@ -125,4 +124,3 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " NERDTree
 nnoremap <C-n> :NERDTreeToggle<CR>
-
