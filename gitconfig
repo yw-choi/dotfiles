@@ -9,5 +9,3 @@
 	smudge = git-lfs smudge -- %f
 [init]
 	defaultBranch = master
-[pull]
-	rebase = false
