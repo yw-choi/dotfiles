@@ -10,11 +10,11 @@ rsync -avzh ./vim/* ~/.vim
 # host-dependent configs
 HOSTNAME=$(hostname)
 if [[ "$HOSTNAME" == "ywchoi.local" ]]; then
-  rync -avzh ./zshrc.local ~/.zshrc.local
+  rsync -avzh ./zshrc.local ~/.zshrc.local
 elif [[ "$HOSTNAME" == "palm.yonsei.ac.kr" ]]; then
-  rync -avzh ./zshrc.palm ~/.zshrc.palm
+  rsync -avzh ./zshrc.palm ~/.zshrc.palm
 elif [[ "$HOSTNAME" = "login"* ]]; then
-  rync -avzh ./zshrc.nurion ~/.zshrc.nurion
+  rsync -avzh ./zshrc.nurion ~/.zshrc.nurion
 fi
 
 source ~/.zshrc;

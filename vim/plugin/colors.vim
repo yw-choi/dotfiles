@@ -15,6 +15,7 @@ endif
 
 syntax on
 colorscheme gruvbox
+set background=dark
 
 " let g:onedark_color_overrides = {
 " \ "white": {"gui": "#FFFFFF", "cterm": "255" },
