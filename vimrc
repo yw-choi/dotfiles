@@ -110,7 +110,7 @@ map <leader>s? z=
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>f :Rg<CR>
 nnoremap <leader>p :Files<CR>
-nnoremap <leader>P :History<CR>
+nnoremap <leader>r :History<CR>
 nnoremap <leader>: :History:<CR>
 nnoremap <leader>/ :History/<CR>
 
