@@ -52,6 +52,7 @@ call plug#begin('~/.vim/plugged')
 " Make sure you use single quotes
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+" Plug 'ervandew/supertab'
 
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-commentary'
@@ -81,15 +82,11 @@ inoremap <C-i><C-d> <C-R>=strftime("%Y/%m/%d %a")<CR>
 nnoremap <C-i><C-t> "=strftime("%H:%M")<CR>P
 inoremap <C-i><C-t> <C-R>=strftime("%H:%M")<CR>
 
-" Buffers
-" Close the current buffer
-map <leader>bd :Bclose<cr>:tabclose<cr>gT
-
+map <leader>l :bprevious<cr>
+map <leader>h :bnext<cr>
+map <leader>q :bd<cr>
 " Close all the buffers
-map <leader>ba :bufdo bd<cr>
-
-map <leader>l :bnext<cr>
-map <leader>h :bprevious<cr>
+map <leader>q! :bufdo bd<cr>
 
 " Clear search highlights
 map <silent> <leader><cr> :noh<cr>
@@ -105,22 +102,41 @@ map <leader>sa zg
 map <leader>s? z=
 
 " fzf.vim
-nnoremap <leader>b :Buffers<CR>
-nnoremap <leader>f :Rg<CR>
-nnoremap <leader>p :Files<CR>
-nnoremap <leader>r :History<CR>
-nnoremap <leader>: :History:<CR>
-nnoremap <leader>/ :History/<CR>
+function! s:find_git_root()
+  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+command! ProjectFiles execute 'Files' s:find_git_root()
+command! ProjectRoot execute 'cd' s:find_git_root() 
+
+nnoremap <c-p>  :ProjectFiles<CR>
+nnoremap <c-p>. :Files<CR>
+nnoremap <c-p>r :History<CR>
+nnoremap <c-p>f :Rg<CR>
+nnoremap <c-p>b :Buffers<CR>
+nnoremap <c-p>: :History:<CR>
+nnoremap <c-p>/ :History/<CR>
+nnoremap <c-p>g :GFiles<CR>
+nnoremap <c-p>s :GFiles?<CR>
+nnoremap <c-p>l :Lines<CR>
+nnoremap <c-p>c :Commits<CR>
+
+nnoremap <c-c><c-d> :cd %:p:h<CR>:pwd<CR>
+nnoremap <c-c><c-d><c-p> :ProjectRoot<CR>:pwd<CR>
+
+" Other useful commands
+" - :BLines
+" - :BCommits
+" - :Commands
+
+" Insert mode completion
+" imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-p> <plug>(fzf-complete-path)
+imap <c-l> <plug>(fzf-complete-line)
 
 " Mapping selecting mappings
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
-
-" Insert mode completion
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " NERDTree
 nnoremap <C-n> :NERDTreeToggle<CR>

@@ -42,12 +42,26 @@ alias ga='git add -f'
 alias vimd="vim -c 'MarkdownPreview'"
 
 # fzf configs
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 if type "fd" > /dev/null; then
-  export FZF_DEFAULT_COMMAND='fd --type f'
+  export FZF_DEFAULT_COMMAND='fd --type f --no-ignore --hidden --follow --exclude .git'
+
+  _fzf_compgen_path() {
+    fd --no-ignore --hidden --follow --exclude ".git" . "$1"
+  }
+
+  _fzf_compgen_dir() {
+    fd --no-ignore --type d --hidden --follow --exclude ".git" . "$1"
+  }
+
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
-PREVIEW_OPTS="--preview 'bat --style=numbers --color=always --line-range :500 {}'"
-alias fzfp="fzf ${PREVIEW_OPTS}"
-export FZF_COMPLETION_OPTS="${PREVIEW_OPTS}"
+
+if type "bat" > /dev/null; then
+  export PREVIEW_OPTS="--preview 'bat --style=numbers --color=always --line-range :500 {}'"
+  export FZF_COMPLETION_OPTS="${PREVIEW_OPTS}"
+fi
 
 if type "rg" > /dev/null; then
   # using ripgrep combined with preview
@@ -67,7 +81,29 @@ if type "rg" > /dev/null; then
   }
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# CTRL-P - Search files from git root directory and paste the selected file path(s) into the command line
+__fsel_project() {
+  local targetdir=$(git rev-parse --show-toplevel 2> /dev/null)
+  if [ -z ${targetdir} ]; then
+    targetdir='./'
+  fi  
+  local cmd="${FZF_CTRL_T_COMMAND} . ${targetdir}"
+  setopt localoptions pipefail no_aliases 2> /dev/null
+  local item
+  eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" $(__fzfcmd) -m "$@" | while read item; do
+    echo -n "${(q)item} "
+  done
+  local ret=$?
+  echo
+  return $ret
+}
 
-
+fzf-file-widget-project() {
+  LBUFFER="${LBUFFER}$(__fsel_project)"
+  local ret=$?
+  zle reset-prompt
+  return $ret
+}
+zle     -N   fzf-file-widget-project
+bindkey '^P' fzf-file-widget-project
 
