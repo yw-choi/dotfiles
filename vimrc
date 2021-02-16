@@ -54,7 +54,7 @@ call plug#begin('~/.vim/plugged')
 " Make sure you use single quotes
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-" Plug 'ervandew/supertab'
+Plug 'ervandew/supertab'
 
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-commentary'
@@ -79,6 +79,10 @@ call plug#end()
 "=========="
 " Mappings "
 "=========="
+nnoremap <C-m><C-d> "=strftime("%Y/%m/%d %a")<CR>P
+inoremap <C-m><C-d> <C-R>=strftime("%Y/%m/%d %a")<CR>
+nnoremap <C-m><C-t> "=strftime("%H:%M")<CR>P
+inoremap <C-m><C-t> <C-R>=strftime("%H:%M")<CR>
 
 map <leader>l :bprevious<cr>
 map <leader>h :bnext<cr>
@@ -157,3 +161,5 @@ nnoremap <C-n> :NERDTreeToggle<CR>
              
 "   endif
 " endfunction
+
+
