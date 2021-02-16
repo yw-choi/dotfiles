@@ -64,6 +64,7 @@ Plug 'junegunn/limelight.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'gruvbox-community/gruvbox'
 Plug 'itchyny/lightline.vim'
+Plug 'shinchu/lightline-gruvbox.vim'
 Plug 'michaeljsmith/vim-indent-object'
 
 Plug 'preservim/nerdtree'

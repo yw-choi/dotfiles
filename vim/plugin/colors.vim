@@ -13,6 +13,8 @@ if (empty($TMUX))
   endif
 endif
 
+let g:lightline = { 'colorscheme': 'gruvbox' }
+
 syntax on
 colorscheme gruvbox
 set background=dark
