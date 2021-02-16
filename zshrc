@@ -44,20 +44,6 @@ alias vimd="vim -c 'MarkdownPreview'"
 # fzf configs
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-if type "fd" > /dev/null; then
-  export FZF_DEFAULT_COMMAND='fd --type f --no-ignore --hidden --follow --exclude .git'
-
-  _fzf_compgen_path() {
-    fd --no-ignore --hidden --follow --exclude ".git" . "$1"
-  }
-
-  _fzf_compgen_dir() {
-    fd --no-ignore --type d --hidden --follow --exclude ".git" . "$1"
-  }
-
-  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-fi
-
 if type "bat" > /dev/null; then
   export PREVIEW_OPTS="--preview 'bat --style=numbers --color=always --line-range :500 {}'"
   export FZF_COMPLETION_OPTS="${PREVIEW_OPTS}"
