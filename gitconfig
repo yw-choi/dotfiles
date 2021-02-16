@@ -9,3 +9,5 @@
 	smudge = git-lfs smudge -- %f
 [init]
 	defaultBranch = master
+[credential]
+	helper = cache --timeout=10000000
