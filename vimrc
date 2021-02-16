@@ -83,12 +83,12 @@ nnoremap <C-m><C-d> "=strftime("%Y/%m/%d %a")<CR>P
 inoremap <C-m><C-d> <C-R>=strftime("%Y/%m/%d %a")<CR>
 nnoremap <C-m><C-t> "=strftime("%H:%M")<CR>P
 inoremap <C-m><C-t> <C-R>=strftime("%H:%M")<CR>
+nnoremap <C-W><C-F> <C-W>vgf
 
-map <leader>l :bprevious<cr>
-map <leader>h :bnext<cr>
-map <leader>q :bd<cr>
-" Close all the buffers
-map <leader>q! :bufdo bd<cr>
+nnoremap <c-l> :bprevious<cr>
+nnoremap <c-h> :bnext<cr>
+nnoremap <c-x> :bd<cr>
+" nnoremap <c-q>! :bufdo bd<cr>
 
 " Clear search highlights
 map <silent> <leader><cr> :noh<cr>
@@ -155,11 +155,13 @@ omap <leader><tab> <plug>(fzf-maps-o)
 " NERDTree
 nnoremap <C-n> :NERDTreeToggle<CR>
 
-" function! OpenFileInPrevWindow()
-"   let cfile = expand("<cfile>")
-"   if empty(glob(cfile))
-             
-"   endif
-" endfunction
+
+function! CreateFileUnderCursor()
+  let cfile = expand("<cfile>")
+  if empty(glob(cfile))
+    call mkdir(expand("<cfile>:p:h"), "p")
+                  
+  endif
+endfunction
 
 
