@@ -155,13 +155,13 @@ omap <leader><tab> <plug>(fzf-maps-o)
 " NERDTree
 nnoremap <C-n> :NERDTreeToggle<CR>
 
-
-function! CreateFileUnderCursor()
-  let cfile = expand("<cfile>")
-  if empty(glob(cfile))
-    call mkdir(expand("<cfile>:p:h"), "p")
-                  
-  endif
+" modify behavior of gf command
+function! s:goCreateFile(cfile)
+  execute "edit". a:cfile
 endfunction
+nnoremap gf :call <SID>goCreateFile(expand("<cfile>"))<cr>
 
-
+augroup Mkdir
+  autocmd!
+  autocmd BufWritePre * call mkdir(expand("<afile>:p:h"), "p")
+augroup END
