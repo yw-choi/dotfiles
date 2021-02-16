@@ -26,6 +26,7 @@ set noswapfile
 set nobackup
 set nowritebackup
 set noerrorbells
+set novisualbell
 set fillchars+=vert:\ 
 set encoding=UTF-8
 set hidden
@@ -40,7 +41,7 @@ autocmd FileType fortran,python,markdown autocmd BufWritePre <buffer> %s/\s\+$//
 
 " Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
+  
 "=========="
 " vim-plug "
 "=========="
@@ -78,10 +79,6 @@ call plug#end()
 "=========="
 " Mappings "
 "=========="
-nnoremap <C-i><C-d> "=strftime("%Y/%m/%d %a")<CR>P
-inoremap <C-i><C-d> <C-R>=strftime("%Y/%m/%d %a")<CR>
-nnoremap <C-i><C-t> "=strftime("%H:%M")<CR>P
-inoremap <C-i><C-t> <C-R>=strftime("%H:%M")<CR>
 
 map <leader>l :bprevious<cr>
 map <leader>h :bnext<cr>
@@ -153,3 +150,10 @@ omap <leader><tab> <plug>(fzf-maps-o)
 
 " NERDTree
 nnoremap <C-n> :NERDTreeToggle<CR>
+
+" function! OpenFileInPrevWindow()
+"   let cfile = expand("<cfile>")
+"   if empty(glob(cfile))
+             
+"   endif
+" endfunction

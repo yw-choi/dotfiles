@@ -11,3 +11,5 @@
 	defaultBranch = master
 [credential]
 	helper = cache --timeout=10000000
+[pull]
+	rebase = false
