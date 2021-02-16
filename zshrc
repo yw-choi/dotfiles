@@ -68,7 +68,7 @@ if type "rg" > /dev/null; then
   # find-in-file - usage: fif <searchTerm>
   fif() {
     if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
-    rg --files-with-matches --no-messages --hidden --glob "!.git/*" "$1" \
+    rg --files-with-matches --no-messages --hidden --glob "!.git/*" "$1" -g "$2" \
       | fzf --preview \
       "bat --style=numbers --color=always --line-range :500 {} \
       | rg \

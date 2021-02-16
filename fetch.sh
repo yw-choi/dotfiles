@@ -15,3 +15,9 @@ for d in assets spell plugin ; do
   rsync -avzh ~/.vim/${d} ./vim
 done
 
+HOSTNAME=$(hostname)
+if [[ "$HOSTNAME" = "login"* ]]; then
+  rsync -avzh ~/.bash_profile ./bash_profile.nurion
+  rsync -avzh ~/.tmux.conf ./tmux.conf.nurion
+fi
+
