@@ -103,24 +103,36 @@ map <leader>sa zg
 map <leader>s? z=
 
 " fzf.vim
+if exists('$TMUX')
+  let g:fzf_prefer_tmux = 1
+  let g:fzf_layout = { 'down': '30%' }
+endif
+
 function! s:find_git_root()
   return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
 command! ProjectFiles execute 'Files' s:find_git_root()
 command! ProjectRoot execute 'cd' s:find_git_root() 
 
-nnoremap <c-p>  :ProjectFiles<CR>
+nnoremap <c-p>p :ProjectFiles<CR>
+nnoremap <c-p><c-p> :ProjectFiles<CR>
 nnoremap <c-p>. :Files<CR>
 nnoremap <c-p>r :History<CR>
+nnoremap <c-p><c-r> :History<CR>
 nnoremap <c-p>f :Rg<CR>
+nnoremap <c-p><c-f> :Rg<CR>
 nnoremap <c-p>b :Buffers<CR>
+nnoremap <c-p><c-b> :Buffers<CR>
 nnoremap <c-p>: :History:<CR>
 nnoremap <c-p>/ :History/<CR>
 nnoremap <c-p>g :GFiles<CR>
+nnoremap <c-p><c-g> :GFiles<CR>
 nnoremap <c-p>s :GFiles?<CR>
+nnoremap <c-p><c-s> :GFiles?<CR>
 nnoremap <c-p>l :Lines<CR>
+nnoremap <c-p><c-l> :Lines<CR>
 nnoremap <c-p>c :Commits<CR>
-
+nnoremap <c-p><c-c> :Commits<CR>
 nnoremap <c-c><c-d> :cd %:p:h<CR>:pwd<CR>
 nnoremap <c-c><c-d><c-p> :ProjectRoot<CR>:pwd<CR>
 
@@ -131,8 +143,8 @@ nnoremap <c-c><c-d><c-p> :ProjectRoot<CR>:pwd<CR>
 
 " Insert mode completion
 " imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-p> <plug>(fzf-complete-path)
-imap <c-l> <plug>(fzf-complete-line)
+inoremap <expr> <c-p> fzf#vim#complete#path('fd --type f --no-ignore --hidden --follow --exclude .git')
+inoremap <expr> <c-l> fzf#vim#complete#line()
 
 " Mapping selecting mappings
 nmap <leader><tab> <plug>(fzf-maps-n)

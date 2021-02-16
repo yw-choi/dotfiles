@@ -23,5 +23,8 @@ alias myquota='lfs quota -h /home01; lfs quota -h /scratch; '
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-export TERM="screen-256color"
+export TERM="xterm-256color"
+export FZF_TMUX=1
 
+alias fzf="fzf-tmux"
+alias tmux=${HOME}/local/bin/tmux
