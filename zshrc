@@ -51,7 +51,7 @@ fi
 
 if type "rg" > /dev/null; then
   # using ripgrep combined with preview
-  # find-in-file - usage: fif <searchTerm>
+  # find-in-file - usage: fif <searchTerm> <filepattern>
   fif() {
     if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
     rg --files-with-matches --no-messages --hidden --glob "!.git/*" "$1" -g "$2" \
@@ -64,6 +64,11 @@ if type "rg" > /dev/null; then
         --colors 'match:style:bold' \
         --ignore-case --pretty --context 10 '$1' \
       || rg --ignore-case --pretty --context 10 '$1' {}"
+  }
+  # fif and open with vim - usage: fo <searchTerm>
+  fo() {
+    if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
+    vim $(fif "$1" "$2")
   }
 fi
 
