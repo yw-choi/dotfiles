@@ -4,6 +4,7 @@
 set nocompatible
 syntax enable
 filetype plugin on
+let g:python_recommended_style = 0
 
 let mapleader = ","
 set nu
@@ -85,6 +86,8 @@ nnoremap <C-y><C-d> "=strftime("%Y/%m/%d %a")<CR>P
 inoremap <C-y><C-d> <C-R>=strftime("%Y/%m/%d %a")<CR>
 nnoremap <C-y><C-t> "=strftime("%H:%M")<CR>P
 inoremap <C-y><C-t> <C-R>=strftime("%H:%M")<CR>
+
+map 0 ^
 
 nnoremap <c-l> :bprevious<cr>
 nnoremap <c-h> :bnext<cr>
