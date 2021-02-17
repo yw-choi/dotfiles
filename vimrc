@@ -5,7 +5,7 @@ set nocompatible
 syntax enable
 filetype plugin on
 
-let mapleader = " "
+let mapleader = ","
 set nu
 set relativenumber
 set encoding=utf8
@@ -80,10 +80,10 @@ call plug#end()
 "=========="
 " Mappings "
 "=========="
-nnoremap <C-m><C-d> "=strftime("%Y/%m/%d %a")<CR>P
-inoremap <C-m><C-d> <C-R>=strftime("%Y/%m/%d %a")<CR>
-nnoremap <C-m><C-t> "=strftime("%H:%M")<CR>P
-inoremap <C-m><C-t> <C-R>=strftime("%H:%M")<CR>
+nnoremap <C-y><C-d> "=strftime("%Y/%m/%d %a")<CR>P
+inoremap <C-y><C-d> <C-R>=strftime("%Y/%m/%d %a")<CR>
+nnoremap <C-y><C-t> "=strftime("%H:%M")<CR>P
+inoremap <C-y><C-t> <C-R>=strftime("%H:%M")<CR>
 nnoremap <C-W><C-F> <C-W>vgf
 
 nnoremap <c-l> :bprevious<cr>
