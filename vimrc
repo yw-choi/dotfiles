@@ -35,6 +35,7 @@ set colorcolumn=80
 set signcolumn=yes
 set wildmenu
 set backspace=indent,eol,start
+set clipboard+=unnamed
 
 " Delete trailing white space on save, useful for some filetypes ;)
 autocmd FileType fortran,python,markdown autocmd BufWritePre <buffer> %s/\s\+$//e
