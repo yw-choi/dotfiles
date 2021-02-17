@@ -85,7 +85,6 @@ nnoremap <C-y><C-d> "=strftime("%Y/%m/%d %a")<CR>P
 inoremap <C-y><C-d> <C-R>=strftime("%Y/%m/%d %a")<CR>
 nnoremap <C-y><C-t> "=strftime("%H:%M")<CR>P
 inoremap <C-y><C-t> <C-R>=strftime("%H:%M")<CR>
-nnoremap <C-W><C-F> <C-W>vgf
 
 nnoremap <c-l> :bprevious<cr>
 nnoremap <c-h> :bnext<cr>
@@ -162,6 +161,8 @@ function! s:goCreateFile(cfile)
   execute "edit". a:cfile
 endfunction
 nnoremap gf :call <SID>goCreateFile(expand("<cfile>"))<cr>
+nnoremap g<C-F> <C-W>vgf
+nnoremap g<C-H> <C-W>sgf
 
 augroup Mkdir
   autocmd!
