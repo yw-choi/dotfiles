@@ -69,59 +69,30 @@ Plug 'itchyny/lightline.vim'
 Plug 'shinchu/lightline-gruvbox.vim'
 Plug 'michaeljsmith/vim-indent-object'
 
-Plug 'preservim/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'ryanoasis/vim-devicons'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']} 
-
 " Initialize plugin system
 call plug#end()
 
 "=========="
 " Mappings "
 "=========="
-nnoremap <C-y><C-d> "=strftime("%Y/%m/%d %a")<CR>P
-inoremap <C-y><C-d> <C-R>=strftime("%Y/%m/%d %a")<CR>
-nnoremap <C-y><C-t> "=strftime("%H:%M")<CR>P
-inoremap <C-y><C-t> <C-R>=strftime("%H:%M")<CR>
-
+" general 
 map 0 ^
-
-nnoremap <c-l> :bprevious<cr>
-nnoremap <c-h> :bnext<cr>
-nnoremap <c-x> :bd<cr>
-" nnoremap <c-q>! :bufdo bd<cr>
-
 " Clear search highlights
 map <silent> <leader><cr> :noh<cr>
-
 " Goyo
 map <leader>g :Goyo<cr>
-
 " Spell check
 map <leader>ss :setlocal spell!<cr>
 map <leader>sn ]s
 map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
-
-" fzf.vim
-if exists('$TMUX')
-  let g:fzf_prefer_tmux = 1
-  let g:fzf_layout = { 'down': '30%' }
-endif
-
-function! s:find_git_root()
-  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
-endfunction
-command! ProjectFiles execute 'Files' s:find_git_root()
-command! ProjectRoot execute 'cd' s:find_git_root() 
-
-nnoremap <c-p>p :ProjectFiles<CR>
-nnoremap <c-p><c-p> :ProjectFiles<CR>
-nnoremap <c-p>. :Files<CR>
+" fzf commands
+nnoremap <c-p>p :GFiles -o<CR>
+nnoremap <c-p><c-p> :GFiles -o<CR>
+nnoremap <c-p>; :Commands<CR>
+nnoremap <c-p>t :Files<CR>
+nnoremap <c-p><c-t> :Files<CR>
 nnoremap <c-p>r :History<CR>
 nnoremap <c-p><c-r> :History<CR>
 nnoremap <c-p>f :Rg<CR>
@@ -138,34 +109,45 @@ nnoremap <c-p>l :Lines<CR>
 nnoremap <c-p><c-l> :Lines<CR>
 nnoremap <c-p>c :Commits<CR>
 nnoremap <c-p><c-c> :Commits<CR>
+" change directory 
 nnoremap <c-c><c-d> :cd %:p:h<CR>:pwd<CR>
 nnoremap <c-c><c-d><c-p> :ProjectRoot<CR>:pwd<CR>
-
-" Other useful commands
-" - :BLines
-" - :BCommits
-" - :Commands
-
+" modify behavior of gf command
+nnoremap gf :call <SID>goCreateFile(expand("<cfile>"))<cr>
+nnoremap g<C-F> <C-W>vgf
+nnoremap g<C-H> <C-W>sgf
 " Insert mode completion
-" imap <c-x><c-k> <plug>(fzf-complete-word)
+
 inoremap <expr> <c-p> fzf#vim#complete#path('fd --type f --no-ignore --hidden --follow --exclude .git')
 inoremap <expr> <c-l> fzf#vim#complete#line()
-
-" Mapping selecting mappings
+" Insert datetime
+nnoremap <C-y><C-d> "=strftime("%Y/%m/%d %a")<CR>P
+inoremap <C-y><C-d> <C-R>=strftime("%Y/%m/%d %a")<CR>
+nnoremap <C-y><C-t> "=strftime("%H:%M")<CR>P
+inoremap <C-y><C-t> <C-R>=strftime("%H:%M")<CR>
+" Buffer navigation
+nnoremap <c-l> :bprevious<cr>
+nnoremap <c-h> :bnext<cr>
+nnoremap <c-x> :bd<cr>
+" List mappings
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
 
-" NERDTree
-nnoremap <C-n> :NERDTreeToggle<CR>
+" fzf.vim
+if exists('$TMUX')
+  let g:fzf_prefer_tmux = 1
+  let g:fzf_layout = { 'down': '30%' }
+endif
 
-" modify behavior of gf command
+function! s:find_git_root()
+  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+command! ProjectRoot execute 'cd' s:find_git_root() 
+
 function! s:goCreateFile(cfile)
   execute "edit". a:cfile
 endfunction
-nnoremap gf :call <SID>goCreateFile(expand("<cfile>"))<cr>
-nnoremap g<C-F> <C-W>vgf
-nnoremap g<C-H> <C-W>sgf
 
 augroup Mkdir
   autocmd!

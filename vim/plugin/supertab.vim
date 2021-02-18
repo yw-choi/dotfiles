@@ -1,0 +1,3 @@
+
+let g:SuperTabDefaultCompletionType = "context"
+
