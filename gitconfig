@@ -8,7 +8,7 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 [init]
-	defaultBranch = master
+	defaultBranch = main
 [credential]
 	helper = cache --timeout=10000000
 [pull]

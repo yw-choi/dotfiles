@@ -39,7 +39,6 @@ alias py=python
 alias gp='git push origin'
 alias gc='git commit -a -m'
 alias ga='git add -f'
-alias vimd="vim -c 'MarkdownPreview'"
 
 # fzf configs
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -78,10 +77,15 @@ __fsel_project() {
   if [ -z ${targetdir} ]; then
     targetdir='./'
   fi  
-  local cmd="${FZF_CTRL_T_COMMAND:-"command find -L ${targetdir} -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
-    -o -type f -print \
-    -o -type d -print \
-    -o -type l -print 2> /dev/null"}"
+  if [ -z "${FZF_CTRL_T_COMMAND}" ]; then
+    local cmd="${FZF_CTRL_T_COMMAND} . ${targetdir}"
+  else
+    local cmd="command find -L ${targetdir} -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
+      -o -type f -print \
+      -o -type d -print \
+      -o -type l -print 2> /dev/null" 
+  fi
+
   setopt localoptions pipefail no_aliases 2> /dev/null
   local item
   eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" $(__fzfcmd) -m "$@" | while read item; do

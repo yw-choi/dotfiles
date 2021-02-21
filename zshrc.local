@@ -32,3 +32,5 @@ if type "fd" > /dev/null; then
 
   export FZF_ALT_C_COMMAND="fd --type d --no-ignore --hidden --follow --exclude .git"
 fi
+
+alias work="cd ${HOME}/Workspace"
