@@ -48,6 +48,7 @@ export FZF_CMD="fzf-tmux"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse"
 export FZF_DEFAULT_COMMAND="fd --type f --no-ignore --hidden --follow --exclude .git"
 export FZF_PREVIEW_BAT='bat --style=numbers --color=always --line-range :500 {}'
+export FZF_PREVIEW_DIR='fd . {} --max-depth 1 --color always --max-results 50'
 
 # Use fd and fzf to get the args to a command.
 # Works only with zsh
@@ -102,17 +103,45 @@ gitroot() {
 # z integration (recent dirs)
 source ${HOME}/local/bin/z.sh
 unalias z 2> /dev/null
+# z - cd to recent directory
 z() {
   [ $# -gt 0 ] && _z "$*" && return
-  cd "$(_z -l 2>&1 | ${FZF_CMD} --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
+  cd "$(_z -l 2>&1 | awk '{print $2}' | ${FZF_CMD} --preview ${FZF_PREVIEW_DIR})"
 }
 
-_fzf_compgen_path() {
-  fd --hidden --follow --no-ignore --exclude ".git" . "$1"
+# c - cd to selected directory
+c() {
+  local dir
+  dir=$(fd --type d --hidden --no-ignore --follow --exclude ".git" . "$@" 2> /dev/null | ${FZF_CMD} --preview ${FZF_PREVIEW_DIR}) &&
+  cd "$dir"
 }
 
-_fzf_compgen_dir() {
-  fd --type d --hidden --no-ignore --follow --exclude ".git" . "$1"
+# p - cd to selected parent directory
+realpath() {
+  OURPWD=$PWD
+  cd "$(dirname "$1")"
+  LINK=$(readlink "$(basename "$1")")
+  while [ "$LINK" ]; do
+    cd "$(dirname "$LINK")"
+    LINK=$(readlink "$(basename "$1")")
+  done
+  REALPATH="$PWD/$(basename "$1")"
+  cd "$OURPWD"
+  echo "$REALPATH"
+}
+p() {
+  local declare dirs=()
+  get_parent_dirs() {
+    if [[ -d "${1}" ]]; then dirs+=("$1"); else return; fi
+    if [[ "${1}" == '/' ]]; then
+      for _dir in "${dirs[@]}"; do echo $_dir; done
+    else
+      get_parent_dirs $(dirname "$1")
+    fi
+  }
+  local DIR=$(get_parent_dirs $(realpath "${1:-$PWD}") | ${FZF_CMD} \
+    --preview ${FZF_PREVIEW_DIR} --tac)
+  cd "$DIR"
 }
 
 export FZF_CTRL_T_COMMAND="fd --exclude .git --no-ignore --hidden --follow"
@@ -150,5 +179,9 @@ _fzf_comprun() {
   shift
   case "$command" in
     vi) ${FZF_CMD} "$@" --preview ${FZF_PREVIEW_BAT} ;;
+    cd) FZF_DEFAULT_COMMAND="fd --type d --hidden --no-ignore --follow --exclude .git" ${FZF_CMD} "$@" \
+      --preview ${FZF_PREVIEW_DIR};;
+    export|unset) fzf "$@" --preview "eval 'echo \$'{}" ;;
+    *)            fzf "$@" ;;
   esac
 }
