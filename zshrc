@@ -39,56 +39,96 @@ alias py=python
 alias gp='git push origin'
 alias gc='git commit -a -m'
 alias ga='git add -f'
+bindkey -r "^L" 
 
 # fzf configs
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-if type "bat" > /dev/null; then
-  export PREVIEW_OPTS="--preview 'bat --style=numbers --color=always --line-range :500 {}'"
-  export FZF_COMPLETION_OPTS="${PREVIEW_OPTS}"
-fi
+export FZF_CMD="fzf-tmux"
+export FZF_DEFAULT_OPTS="--height 40% --layout=reverse"
+export FZF_DEFAULT_COMMAND="fd --type f --no-ignore --hidden --follow --exclude .git"
+export FZF_PREVIEW_BAT='bat --style=numbers --color=always --line-range :500 {}'
 
-if type "rg" > /dev/null; then
-  # using ripgrep combined with preview
-  # find-in-file - usage: fif <searchTerm> <filepattern>
-  fif() {
-    if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
-    rg --files-with-matches --no-messages --hidden --glob "!.git/*" "$1" -g "$2" \
-      | fzf --preview \
-      "bat --style=numbers --color=always --line-range :500 {} \
-      | rg \
-        --colors 'match:none'\
-        --colors 'match:bg:0x33,0x66,0xFF' \
-        --colors 'match:fg:white' \
-        --colors 'match:style:bold' \
-        --ignore-case --pretty --context 10 '$1' \
-      || rg --ignore-case --pretty --context 10 '$1' {}"
-  }
-  # fif and open with vim - usage: fo <searchTerm>
-  fo() {
-    if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
-    vim $(fif "$1" "$2")
-  }
-fi
+# Use fd and fzf to get the args to a command.
+# Works only with zsh
+# Examples:
+# f mv # To move files. You can write the destination after selecting the files.
+# f 'echo Selected:'
+# f 'echo Selected music:' --extention mp3
+# fm rm # To rm files in current directory
+f() {
+    sels=( "${(@f)$(fd "${fd_default[@]}" "${@:2}"| ${FZF_CMD} --preview ${FZF_PREVIEW_BAT})}" )
+    test -n "$sels" && print -z -- "$1 ${sels[@]:q:q}"
+}
+# fe [FUZZY PATTERN] - Open the selected file with the default editor
+#   - Bypass fuzzy finder if there's only one match (--select-1)
+#   - Exit if there's no match (--exit-0)
+fe() {
+  IFS=$'\n' files=($(${FZF_CMD} --preview ${FZF_PREVIEW_BAT} --query="$1" --multi --select-1 --exit-0))
+  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+}
 
+# Modified version where you can press
+#   - CTRL-O to open with `open` command,
+#   - CTRL-E or Enter key to open with the $EDITOR
+fo() {
+  IFS=$'\n' out=("$(${FZF_CMD} --preview ${FZF_PREVIEW_BAT} --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)")
+  key=$(head -1 <<< "$out")
+  file=$(head -2 <<< "$out" | tail -1)
+  if [ -n "$file" ]; then
+    [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-vim} "$file"
+  fi
+}
+# fuzzy grep open via ag with line number
+vg() {
+  local file
+  local line
+  read -r file line <<<"$(rg --no-heading -n -i --ignore-file .git --no-ignore --no-messages $@ | ${FZF_CMD} --preview ${FZF_PREVIEW_BAT} -0 -1 | awk -F: '{print $1, $2}')"
+
+  if [[ -n $file ]]
+  then
+     vim $file +$line
+  fi
+}
+gitroot() {
+  local targetdir=$(git rev-parse --show-toplevel 2> /dev/null)
+  if [ -z ${targetdir} ]; then
+    targetdir='./'
+  fi  
+  echo -n $targetdir
+}
+
+
+# z integration (recent dirs)
+source ${HOME}/local/bin/z.sh
+unalias z 2> /dev/null
+z() {
+  [ $# -gt 0 ] && _z "$*" && return
+  cd "$(_z -l 2>&1 | ${FZF_CMD} --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
+}
+
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
+
+export FZF_CTRL_T_COMMAND=${FZF_DEFAULT_COMMAND}
+export FZF_CTRL_T_OPTS="--preview '${FZF_PREVIEW_BAT}'"
+export FZF_ALT_C_COMMAND="fd --type d --no-ignore --hidden --follow"
 # CTRL-P - Search files from git root directory and paste the selected file path(s) into the command line
 __fsel_project() {
   local targetdir=$(git rev-parse --show-toplevel 2> /dev/null)
   if [ -z ${targetdir} ]; then
     targetdir='./'
   fi  
-  if [ -z "${FZF_CTRL_T_COMMAND}" ]; then
-    local cmd="${FZF_CTRL_T_COMMAND} . ${targetdir}"
-  else
-    local cmd="command find -L ${targetdir} -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
-      -o -type f -print \
-      -o -type d -print \
-      -o -type l -print 2> /dev/null" 
-  fi
+  local cmd="${FZF_DEFAULT_COMMAND} . ${targetdir}"
 
   setopt localoptions pipefail no_aliases 2> /dev/null
   local item
-  eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" $(__fzfcmd) -m "$@" | while read item; do
+  eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" $(__fzfcmd) --preview ${FZF_PREVIEW_BAT} -m "$@" | while read item; do
     echo -n "${(q)item} "
   done
   local ret=$?
@@ -105,14 +145,3 @@ fzf-file-widget-project() {
 zle     -N   fzf-file-widget-project
 bindkey '^P' fzf-file-widget-project
 
-source ${HOME}/local/bin/z.sh
-
-bindkey -r "^L" 
-
-# rd - cd to recent directory
-# requires https://github.com/rupa/z
-rd() {
-  local dir
-  dir=$(z | awk '{print $2}' 2> /dev/null | fzf +m) &&
-  cd "$dir"
-}
