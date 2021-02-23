@@ -105,3 +105,14 @@ fzf-file-widget-project() {
 zle     -N   fzf-file-widget-project
 bindkey '^P' fzf-file-widget-project
 
+source ${HOME}/local/bin/z.sh
+
+bindkey -r "^L" 
+
+# rd - cd to recent directory
+# requires https://github.com/rupa/z
+rd() {
+  local dir
+  dir=$(z | awk '{print $2}' 2> /dev/null | fzf +m) &&
+  cd "$dir"
+}
