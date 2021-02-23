@@ -13,3 +13,4 @@ export PATH=${HOME}/local/bin:${PATH}
 # if [ -z "$TMUX" ]; then
 #   ${HOME}/local/bin/tmux 
 # fi
+source "$HOME/.cargo/env"

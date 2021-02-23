@@ -84,7 +84,12 @@ fo() {
 vg() {
   local file
   local line
-  read -r file line <<<"$(rg --no-heading -n -i --ignore-file .git --no-ignore --no-messages $@ | ${FZF_CMD} --preview ${FZF_PREVIEW_BAT} -0 -1 | awk -F: '{print $1, $2}')"
+  read -r file line <<<"$(rg --no-heading -n -i --ignore-file .git --no-ignore --no-messages --column --color=always --smart-case ${1} \
+    $(fd --type f --no-ignore --hidden --follow --exclude .git ${@:2}) \
+    | ${FZF_CMD} --ansi --delimiter ':' --preview \
+    'bat --theme=gruvbox --style=numbers --color=always --highlight-line {2} {1}' \
+    --preview-window +{2}-/2 \
+    | awk -F: '{print $1, $2}')"
 
   if [[ -n $file ]]
   then
