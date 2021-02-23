@@ -126,9 +126,14 @@ inoremap <C-y><C-d> <C-R>=strftime("%Y/%m/%d %a")<CR>
 nnoremap <C-y><C-t> "=strftime("%H:%M")<CR>P
 inoremap <C-y><C-t> <C-R>=strftime("%H:%M")<CR>
 " Buffer navigation
-nnoremap <c-l> :bprevious<cr>
-nnoremap <c-h> :bnext<cr>
-nnoremap <c-x> :bd<cr>
+map <leader>] :bprevious<cr>
+map <leader>[ :bnext<cr>
+map <c-q> :bd<cr>
+" " Pane navigation
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
 " List mappings
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
