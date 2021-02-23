@@ -108,16 +108,16 @@ z() {
 }
 
 _fzf_compgen_path() {
-  fd --hidden --follow --exclude ".git" . "$1"
+  fd --hidden --follow --no-ignore --exclude ".git" . "$1"
 }
 
 _fzf_compgen_dir() {
-  fd --type d --hidden --follow --exclude ".git" . "$1"
+  fd --type d --hidden --no-ignore --follow --exclude ".git" . "$1"
 }
 
 export FZF_CTRL_T_COMMAND=${FZF_DEFAULT_COMMAND}
 export FZF_CTRL_T_OPTS="--preview '${FZF_PREVIEW_BAT}'"
-export FZF_ALT_C_COMMAND="fd --type d --no-ignore --hidden --follow"
+export FZF_ALT_C_COMMAND="fd --type d --exclude '.git' --no-ignore --hidden --follow"
 # CTRL-P - Search files from git root directory and paste the selected file path(s) into the command line
 __fsel_project() {
   local targetdir=$(git rev-parse --show-toplevel 2> /dev/null)
