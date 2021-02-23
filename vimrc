@@ -150,11 +150,3 @@ function! s:find_git_root()
 endfunction
 command! ProjectRoot execute 'cd' s:find_git_root() 
 
-function! s:goCreateFile(cfile)
-  execute "edit". a:cfile
-endfunction
-
-augroup Mkdir
-  autocmd!
-  autocmd BufWritePre * call mkdir(expand("<afile>:p:h"), "p")
-augroup END
