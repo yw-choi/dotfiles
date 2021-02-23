@@ -65,7 +65,8 @@ f() {
 #   - Bypass fuzzy finder if there's only one match (--select-1)
 #   - Exit if there's no match (--exit-0)
 fe() {
-  IFS=$'\n' files=($(${FZF_CMD} --preview ${FZF_PREVIEW_BAT} --query="$1" --multi --select-1 --exit-0))
+  files=($(fd --type f --no-ignore --hidden --follow --exclude .git . ${@} \
+    | ${FZF_CMD} --preview ${FZF_PREVIEW_BAT} --multi --select-1 --exit-0))
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
 }
 
@@ -73,7 +74,9 @@ fe() {
 #   - CTRL-O to open with `open` command,
 #   - CTRL-E or Enter key to open with the $EDITOR
 fo() {
-  IFS=$'\n' out=("$(${FZF_CMD} --preview ${FZF_PREVIEW_BAT} --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)")
+  IFS=$'\n' out=("$(fd --type f --no-ignore --hidden --follow --exclude .git . ${@} \
+    | ${FZF_CMD} --preview ${FZF_PREVIEW_BAT} --exit-0 --expect=ctrl-o,ctrl-e)")
+
   key=$(head -1 <<< "$out")
   file=$(head -2 <<< "$out" | tail -1)
   if [ -n "$file" ]; then
