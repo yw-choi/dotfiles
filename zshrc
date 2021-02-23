@@ -145,3 +145,10 @@ fzf-file-widget-project() {
 zle     -N   fzf-file-widget-project
 bindkey '^P' fzf-file-widget-project
 
+_fzf_comprun() {
+  local command=$1
+  shift
+  case "$command" in
+    vi) ${FZF_CMD} "$@" --preview ${FZF_PREVIEW_BAT} ;;
+  esac
+}
