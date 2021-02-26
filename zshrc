@@ -46,7 +46,7 @@ bindkey -r "^L"
 
 export FZF_CMD="fzf-tmux"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse"
-export FZF_DEFAULT_COMMAND="fd --type f --no-ignore --hidden --follow --exclude .git"
+export FZF_DEFAULT_COMMAND="fd --type f --no-ignore-vcs --hidden --follow --exclude .git"
 export FZF_PREVIEW_BAT='bat --style=numbers --color=always --line-range :500 {}'
 export FZF_PREVIEW_DIR='fd . {} --max-depth 1 --color always --max-results 50'
 
@@ -65,7 +65,7 @@ f() {
 #   - Bypass fuzzy finder if there's only one match (--select-1)
 #   - Exit if there's no match (--exit-0)
 fe() {
-  files=($(fd --type f --no-ignore --hidden --follow --exclude .git . ${@} \
+  files=($(fd --type f --no-ignore-vcs --hidden --follow --exclude .git . ${@} \
     | ${FZF_CMD} --preview ${FZF_PREVIEW_BAT} --multi --select-1 --exit-0))
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
 }
@@ -74,7 +74,7 @@ fe() {
 #   - CTRL-O to open with `open` command,
 #   - CTRL-E or Enter key to open with the $EDITOR
 fo() {
-  IFS=$'\n' out=("$(fd --type f --no-ignore --hidden --follow --exclude .git . ${@} \
+  IFS=$'\n' out=("$(fd --type f --no-ignore-vcs --hidden --follow --exclude .git . ${@} \
     | ${FZF_CMD} --preview ${FZF_PREVIEW_BAT} --exit-0 --expect=ctrl-o,ctrl-e)")
 
   key=$(head -1 <<< "$out")
@@ -87,8 +87,8 @@ fo() {
 vg() {
   local file
   local line
-  read -r file line <<<"$(rg --no-heading -n -i --ignore-file .git --no-ignore --no-messages --column --color=always --smart-case ${1} \
-    $(fd --type f --no-ignore --hidden --follow --exclude .git ${@:2}) \
+  read -r file line <<<"$(rg --no-heading -n -i --ignore-file .git --no-ignore-vcs --no-messages --column --color=always --smart-case ${1} \
+    $(fd --type f --no-ignore-vcs --hidden --follow --exclude .git ${@:2}) \
     | ${FZF_CMD} --ansi --delimiter ':' --preview \
     'bat --theme=gruvbox --style=numbers --color=always --highlight-line {2} {1}' \
     --preview-window +{2}-/2 \
@@ -120,7 +120,7 @@ z() {
 # c - cd to selected directory
 c() {
   local dir
-  dir=$(fd --type d --hidden --no-ignore --follow --exclude ".git" . "$@" 2> /dev/null | ${FZF_CMD} --preview ${FZF_PREVIEW_DIR}) &&
+  dir=$(fd --type d --hidden --no-ignore-vcs --follow --exclude ".git" . "$@" 2> /dev/null | ${FZF_CMD} --preview ${FZF_PREVIEW_DIR}) &&
   cd "$dir"
 }
 
@@ -152,9 +152,9 @@ p() {
   cd "$DIR"
 }
 
-export FZF_CTRL_T_COMMAND="fd --exclude .git --no-ignore --hidden --follow"
+export FZF_CTRL_T_COMMAND="fd --exclude .git --no-ignore-vcs --hidden --follow"
 export FZF_CTRL_T_OPTS="--preview '${FZF_PREVIEW_BAT}'"
-export FZF_ALT_C_COMMAND="fd --type d --exclude .git --no-ignore --hidden --follow"
+export FZF_ALT_C_COMMAND="fd --type d --exclude .git --no-ignore-vcs --hidden --follow"
 # CTRL-P - Search files from git root directory and paste the selected file path(s) into the command line
 __fsel_project() {
   local targetdir=$(git rev-parse --show-toplevel 2> /dev/null)
@@ -187,7 +187,7 @@ _fzf_comprun() {
   shift
   case "$command" in
     vi) ${FZF_CMD} "$@" --preview ${FZF_PREVIEW_BAT} ;;
-    cd) FZF_DEFAULT_COMMAND="fd --type d --hidden --no-ignore --follow --exclude .git" ${FZF_CMD} "$@" \
+    cd) FZF_DEFAULT_COMMAND="fd --type d --hidden --no-ignore-vcs --follow --exclude .git" ${FZF_CMD} "$@" \
       --preview ${FZF_PREVIEW_DIR};;
     export|unset) fzf "$@" --preview "eval 'echo \$'{}" ;;
     *)            fzf "$@" ;;
@@ -199,7 +199,7 @@ vit() {
     if [ $# -eq 0 ]; then
       echo "You are already inside Vim. Provide filenames as arguments"
     else
-      printf '\033]51;["call", "Tapi_vit", ["%s"]]\007' $@
+      readlink -f $@ | xargs printf '\033]51;["call", "Tapi_vit", ["%s"]]\007'
       exit
     fi
   else

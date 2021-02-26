@@ -36,3 +36,4 @@ cd-to-workspace() {
 zle     -N   cd-to-workspace
 bindkey '^W' cd-to-workspace
 
+alias readlink=greadlink
