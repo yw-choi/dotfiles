@@ -7,6 +7,7 @@ filetype plugin on
 let g:python_recommended_style = 0
 
 let mapleader = ","
+
 set nu
 set relativenumber
 set encoding=utf8
@@ -15,7 +16,7 @@ set shiftwidth=2
 set tabstop=2
 set autoindent
 set smartindent
-set wrap 
+set wrap
 set history=500
 set splitbelow
 set splitright
@@ -28,22 +29,35 @@ set nobackup
 set nowritebackup
 set noerrorbells
 set novisualbell
-set fillchars+=vert:\ 
+set fillchars+=vert:\ ,
 set encoding=UTF-8
 set hidden
 set scrolloff=8
 set colorcolumn=80
-set signcolumn=yes
+set signcolumn=no
 set wildmenu
 set backspace=indent,eol,start
-set clipboard+=unnamed
+set lazyredraw
+set magic
+set ffs=unix,dos,mac
 
-" Delete trailing white space on save, useful for some filetypes ;)
-autocmd FileType fortran,python,markdown autocmd BufWritePre <buffer> %s/\s\+$//e
+highlight EndOfBuffer ctermfg=black guifg=black
+
 
 " Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-  
+
+" Delete trailing white space on save, useful for some filetypes ;)
+fun! CleanExtraSpaces()
+    let save_cursor = getpos(".")
+    let old_query = getreg('/')
+    silent! %s/\s\+$//e
+    call setpos('.', save_cursor)
+    call setreg('/', old_query)
+endfun
+
+autocmd BufWritePre * :call CleanExtraSpaces()
+
 "=========="
 " vim-plug "
 "=========="
@@ -75,7 +89,7 @@ call plug#end()
 "=========="
 " Mappings "
 "=========="
-" general 
+" general
 map 0 ^
 " Clear search highlights
 map <silent> <leader><cr> :noh<cr>
@@ -88,8 +102,8 @@ map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
 " fzf commands
-nnoremap <c-p>p :GFiles -o<CR>
-nnoremap <c-p><c-p> :GFiles -o<CR>
+nnoremap <c-p>p :GFiles -co<CR>
+nnoremap <c-p><c-p> :GFiles -co<CR>
 nnoremap <c-p>; :Commands<CR>
 nnoremap <c-p>t :Files<CR>
 nnoremap <c-p><c-t> :Files<CR>
@@ -109,15 +123,13 @@ nnoremap <c-p>l :Lines<CR>
 nnoremap <c-p><c-l> :Lines<CR>
 nnoremap <c-p>c :Commits<CR>
 nnoremap <c-p><c-c> :Commits<CR>
-" change directory 
+" change directory
 nnoremap <c-c><c-d> :cd %:p:h<CR>:pwd<CR>
 nnoremap <c-c><c-d><c-p> :ProjectRoot<CR>:pwd<CR>
 " modify behavior of gf command
-nnoremap gf :call <SID>goCreateFile(expand("<cfile>"))<cr>
 nnoremap g<C-F> <C-W>vgf
 nnoremap g<C-H> <C-W>sgf
 " Insert mode completion
-
 inoremap <expr> <c-p> fzf#vim#complete#path('fd --type f --no-ignore --hidden --follow --exclude .git')
 inoremap <expr> <c-l> fzf#vim#complete#line()
 " Insert datetime
@@ -139,6 +151,8 @@ nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
 
+map <C-W><C-t> :vert term<cr>
+
 " fzf.vim
 if exists('$TMUX')
   let g:fzf_prefer_tmux = 1
@@ -148,5 +162,12 @@ endif
 function! s:find_git_root()
   return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
-command! ProjectRoot execute 'cd' s:find_git_root() 
+command! ProjectRoot execute 'cd' s:find_git_root()
 
+function! Tapi_vit(bufnum, arglist)
+   let currfile = get(a:arglist, 0, '')
+   if empty(currfile)
+     return
+   endif
+   execute 'e' currfile
+endfunction

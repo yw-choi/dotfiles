@@ -39,7 +39,7 @@ alias py=python
 alias gp='git push origin'
 alias gc='git commit -a -m'
 alias ga='git add -f'
-bindkey -r "^L" 
+bindkey -r "^L"
 
 # fzf configs
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -103,7 +103,7 @@ gitroot() {
   local targetdir=$(git rev-parse --show-toplevel 2> /dev/null)
   if [ -z ${targetdir} ]; then
     targetdir='./'
-  fi  
+  fi
   echo -n $targetdir
 }
 
@@ -160,7 +160,7 @@ __fsel_project() {
   local targetdir=$(git rev-parse --show-toplevel 2> /dev/null)
   if [ -z ${targetdir} ]; then
     targetdir='./'
-  fi  
+  fi
   local cmd="${FZF_CTRL_T_COMMAND} . ${targetdir}"
 
   setopt localoptions pipefail no_aliases 2> /dev/null
@@ -193,3 +193,17 @@ _fzf_comprun() {
     *)            fzf "$@" ;;
   esac
 }
+
+vit() {
+  if [[ ! -z "$VIM_TERMINAL" ]]; then
+    if [ $# -eq 0 ]; then
+      echo "You are already inside Vim. Provide filenames as arguments"
+    else
+      printf '\033]51;["call", "Tapi_vit", ["%s"]]\007' $@
+      exit
+    fi
+  else
+    vim $@
+  fi
+}
+alias vim=vit
