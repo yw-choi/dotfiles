@@ -27,7 +27,7 @@ unset __conda_setup
 alias vi='vim'
 alias qs='qstat -a'
 alias qj='/usr/pbs/bin/qstat -f'
-alias qsub='qsub' 
+alias qsub='qsub'
 
 alias oak='cd /oak/ywchoe'
 alias pine='cd /pine/ywchoe'
@@ -39,3 +39,5 @@ export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 unset FZF_DEFAULT_COMMAND
+
+export LD_LIBRARY_PATH=${HOME}/local/lib:${LD_LIBRARY_PATH}

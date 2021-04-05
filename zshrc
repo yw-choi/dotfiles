@@ -114,7 +114,7 @@ unalias z 2> /dev/null
 # z - cd to recent directory
 z() {
   [ $# -gt 0 ] && _z "$*" && return
-  cd "$(_z -l 2>&1 | awk '{print $2}' | ${FZF_CMD} --preview ${FZF_PREVIEW_DIR})"
+  cd "$(_z -lt 2>&1 | tac | awk '{print $2}' | ${FZF_CMD} --preview ${FZF_PREVIEW_DIR})"
 }
 
 # c - cd to selected directory
