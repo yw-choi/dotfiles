@@ -103,6 +103,7 @@ map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
 " fzf commands
+nnoremap <c-o>  :GFiles -co<CR>
 nnoremap <c-p>p :GFiles -co<CR>
 nnoremap <c-p><c-p> :GFiles -co<CR>
 nnoremap <c-p>; :Commands<CR>
