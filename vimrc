@@ -82,6 +82,7 @@ Plug 'gruvbox-community/gruvbox'
 Plug 'itchyny/lightline.vim'
 Plug 'shinchu/lightline-gruvbox.vim'
 Plug 'michaeljsmith/vim-indent-object'
+Plug 'junegunn/vim-peekaboo'
 
 " Initialize plugin system
 call plug#end()

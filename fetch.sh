@@ -19,5 +19,7 @@ HOSTNAME=$(hostname)
 if [[ "$HOSTNAME" = "login"* ]]; then
   rsync -avzh ~/.bash_profile ./bash_profile.nurion
   rsync -avzh ~/.tmux.conf ./tmux.conf.nurion
+elif [[ "$HOSTNAME" = "ywchoi.local" ]]; then
+  rsync -avzh ~/.config/karabiner/assets/complex_modifications ./karabiner
 fi
 
