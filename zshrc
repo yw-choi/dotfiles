@@ -109,6 +109,7 @@ gitroot() {
 
 
 # z integration (recent dirs)
+export _Z_NO_RESOLVE_SYMLINKS=1
 source ${HOME}/local/bin/z.sh
 unalias z 2> /dev/null
 # z - cd to recent directory

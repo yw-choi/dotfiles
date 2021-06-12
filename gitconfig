@@ -1,7 +1,7 @@
 # This is Git's per-user configuration file.
 [user]
 	name = Young Woo Choi
-	email = ywchoi.ys@gmail.com
+	email = hi.ywchoi@gmail.com
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true
@@ -19,3 +19,7 @@
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+[core]
+	excludesfile = /Users/ywchoi/.gitignore_global
+[commit]
+	template = /Users/ywchoi/.stCommitMsg

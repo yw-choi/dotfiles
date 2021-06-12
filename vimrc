@@ -40,6 +40,10 @@ set backspace=indent,eol,start
 set lazyredraw
 set magic
 set ffs=unix,dos,mac
+let fortran_do_enddo=1
+let fortran_more_precise=1
+let fortran_have_tabs=1
+let fortran_free_source=1
 
 highlight EndOfBuffer ctermfg=black guifg=black
 
@@ -75,7 +79,7 @@ Plug 'ervandew/supertab'
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-commentary'
 Plug 'junegunn/goyo.vim'
-Plug 'junegunn/limelight.vim'
+" Plug 'junegunn/limelight.vim'
 
 Plug 'joshdick/onedark.vim'
 Plug 'gruvbox-community/gruvbox'
