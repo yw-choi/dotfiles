@@ -1,6 +1,3 @@
 # dotfiles
 
-- .zshrc
-- .vimrc
-- .vim
-- .gitconfig
+./install.sh
