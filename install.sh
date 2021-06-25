@@ -36,6 +36,14 @@ main() {
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   fi
+
+  echo ">> Installing vim plugins.."
+  vim +PlugInstall +qall >/dev/null 2>&1
+
+  echo ">> Creating conda env"
+  conda init zsh
+  conda create -n local python=3.8 numpy scipy matplotlib
+
   echo ">> Done!"
 }
 
