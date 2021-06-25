@@ -16,12 +16,16 @@ main() {
     exit 2;
   fi
 
-  echo "Start installing for host: $HOST"
+  echo ">> Start installing for host: $HOST"
 
+  echo ">> Installing common scripts"
   ./common/install.sh
 
   if [ -f ./hosts/${HOST}/install.sh ]; then
+    echo ">> Installing host-specific scripts"
     ./hosts/${HOST}/install.sh
+  else
+    echo ">> Host-specific scripts not found. Skipping.."
   fi
 
   source ~/.zshrc;
@@ -32,6 +36,7 @@ main() {
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   fi
+  echo ">> Done!"
 }
 
 print_usage() {

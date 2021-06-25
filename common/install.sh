@@ -12,11 +12,11 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 TOPDIR=$(git rev-parse --show-toplevel)
 BASEDIR=${TOPDIR}/common
 
-rsync -avzh ${BASEDIR}/z.sh ~/.z.sh
-rsync -avzh ${BASEDIR}/p10k.zsh ~/.p10k.zsh
-rsync -avzh ${BASEDIR}/vimrc ~/.vimrc
-rsync -avzh ${BASEDIR}/vim ~/.vim
-rsync -avzh ${BASEDIR}/zshrc ~/.zshrc.common
+ln -sf ${BASEDIR}/z.sh ~/.z.sh
+ln -sf ${BASEDIR}/p10k.zsh ~/.p10k.zsh
+ln -sf ${BASEDIR}/vimrc ~/.vimrc
+ln -sf ${BASEDIR}/vim ~/.vim
+ln -sf ${BASEDIR}/zshrc ~/.zshrc.common
 
 touch ~/.z
 
