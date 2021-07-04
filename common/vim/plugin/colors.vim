@@ -13,23 +13,24 @@ if (empty($TMUX))
   endif
 endif
 
-let g:lightline = { 'colorscheme': 'gruvbox' }
 
 syntax on
-colorscheme gruvbox
-set background=dark
+" let g:lightline = { 'colorscheme': 'gruvbox' }
+" colorscheme gruvbox
+" set background=dark
 
-" let g:onedark_color_overrides = {
-" \ "white": {"gui": "#FFFFFF", "cterm": "255" },
-" \}
-" if (has("autocmd"))
-"   augroup colorextend
-"     autocmd!
-"     " Override the `Statement` foreground color in 256-color mode
-"     autocmd ColorScheme * call onedark#extend_highlight("Normal", { "bg": { "cterm": "None" } })
-"     autocmd ColorScheme * call onedark#extend_highlight("Comment", { "fg": { "cterm": 246 } })
-"     autocmd ColorScheme * call onedark#extend_highlight("LineNr", { "fg": { "cterm": 246 } })
-"   augroup END
-" endif
-" colorscheme onedark
-
+let g:onedark_color_overrides = {
+\ "white": {"gui": "#FFFFFF", "cterm": "255" },
+\ "comment_grey": {"gui": "#969696", "cterm": "150" },
+\}
+if (has("autocmd"))
+  augroup colorextend
+    autocmd!
+    " Override the `Statement` foreground color in 256-color mode
+    autocmd ColorScheme * call onedark#extend_highlight("Normal", { "bg": { "cterm": "None" } })
+    autocmd ColorScheme * call onedark#extend_highlight("Comment", { "fg": { "cterm": 246 } })
+    autocmd ColorScheme * call onedark#extend_highlight("LineNr", { "fg": { "cterm": 246 } })
+  augroup END
+endif
+colorscheme onedark
+let g:lightline = { 'colorscheme': 'onedark' }
