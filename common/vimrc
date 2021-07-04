@@ -7,6 +7,9 @@ filetype plugin on
 let g:python_recommended_style = 0
 
 let mapleader = ","
+set shell=zsh
+set shellcmdflag=-ci
+set tws=15x0
 
 set nu
 set relativenumber
