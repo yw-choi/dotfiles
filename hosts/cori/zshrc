@@ -5,10 +5,6 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 module load impi python/3.8-anaconda-2020.11
 
-conda activate local
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/usr/common/software/python/3.8-anaconda-2020.11/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -24,3 +20,20 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+conda activate local
+
+alias work="cd ${SCRATCH}"
+cd-to-workspace() {
+  zle push-line # Clear buffer. Auto-restored on next prompt.
+  BUFFER="cd ${SCRATCH}"
+  zle accept-line
+  local ret=$?
+  unset dir # ensure this doesn't end up appearing in prompt expansion
+  zle reset-prompt
+  return $ret
+}
+zle     -N   cd-to-workspace
+bindkey '^W' cd-to-workspace
+
+export PYTHONPATH="/global/homes/y/ywchoi/.local/cori/3.8-anaconda-2020.11/lib:${PYTHONPATH}"
+export JUPYTER_PATH="/global/homes/y/ywchoi/.local/cori/3.8-anaconda-2020.11/lib:${JUPYTER_PATH}"

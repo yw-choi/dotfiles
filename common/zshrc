@@ -23,6 +23,7 @@ bindkey -v
 
 export PATH=${HOME}/local/bin:${PATH}
 export LD_LIBRARY_PATH=${HOME}/local/lib:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${HOME}/local/lib64:${LD_LIBRARY_PATH}
 
 # common aliases
 alias l='ls -l'
@@ -64,16 +65,23 @@ fe() {
 # Modified version where you can press
 #   - CTRL-O to open with `open` command,
 #   - CTRL-E or Enter key to open with the $EDITOR
-fo() {
+fo-widget() {
   IFS=$'\n' out=("$(fd --type f --no-ignore-vcs --hidden --follow --exclude .git . ${@} \
     | ${FZF_CMD} --preview ${FZF_PREVIEW_BAT} --exit-0 --expect=ctrl-o,ctrl-e)")
 
   key=$(head -1 <<< "$out")
   file=$(head -2 <<< "$out" | tail -1)
-  if [ -n "$file" ]; then
-    [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-vim} "$file"
-  fi
+
+  zle push-line # Clear buffer. Auto-restored on next prompt.
+  LBUFFER="${EDITOR:-vim} $file"
+  zle accept-line
+  local ret=$?
+  zle reset-prompt
+  return $ret
 }
+zle     -N   fo-widget
+bindkey '^O' fo-widget
+
 # fuzzy grep open via ag with line number
 vg() {
   local file
@@ -186,16 +194,16 @@ _fzf_comprun() {
   esac
 }
 
-vit() {
-  if [[ ! -z "$VIM_TERMINAL" ]]; then
-    if [ $# -eq 0 ]; then
-      echo "You are already inside Vim. Provide filenames as arguments"
-    else
-      readlink -f $@ | xargs printf '\033]51;["call", "Tapi_vit", ["%s"]]\007'
-      exit
-    fi
-  else
-    vim $@
-  fi
-}
-alias vim=vit
+# vit() {
+#   if [[ ! -z "$VIM_TERMINAL" ]]; then
+#     if [ $# -eq 0 ]; then
+#       echo "You are already inside Vim. Provide filenames as arguments"
+#     else
+#       readlink -f $@ | xargs printf '\033]51;["call", "Tapi_vit", ["%s"]]\007'
+#       exit
+#     fi
+#   else
+#     vim $@
+#   fi
+# }
+# alias vim=vit
