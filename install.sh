@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 HOST=$1
-HOSTLIST=("local" "cori")
+HOSTLIST=("local" "cori" "palm")
 
 main() {
 
@@ -53,6 +53,7 @@ print_usage() {
   echo "host list"
   echo "- local"
   echo "- cori"
+  echo "- palm"
 }
 
 main
