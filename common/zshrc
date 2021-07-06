@@ -186,16 +186,16 @@ _fzf_comprun() {
   esac
 }
 
-vit() {
-  if [[ ! -z "$VIM_TERMINAL" ]]; then
-    if [ $# -eq 0 ]; then
-      echo "You are already inside Vim. Provide filenames as arguments"
-    else
-      readlink -f $@ | xargs printf '\033]51;["call", "Tapi_vit", ["%s"]]\007'
-      exit
-    fi
-  else
-    vim $@
-  fi
-}
-alias vim=vit
+# vit() {
+#   if [[ ! -z "$VIM_TERMINAL" ]]; then
+#     if [ $# -eq 0 ]; then
+#       echo "You are already inside Vim. Provide filenames as arguments"
+#     else
+#       readlink -f $@ | xargs printf '\033]51;["call", "Tapi_vit", ["%s"]]\007'
+#       exit
+#     fi
+#   else
+#     vim $@
+#   fi
+# }
+# alias vim=vit

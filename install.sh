@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 HOST=$1
-HOSTLIST=("local" "cori" "palm")
+HOSTLIST=("local" "cori" "palm" "stampede2")
 
 main() {
 
@@ -50,10 +50,8 @@ main() {
 print_usage() {
   echo "[Usage] ./install.sh host"
   echo ""
-  echo "host list"
-  echo "- local"
-  echo "- cori"
-  echo "- palm"
+  echo "host list:"
+  echo "${HOSTLIST}"
 }
 
 main
