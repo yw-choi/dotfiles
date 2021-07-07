@@ -21,7 +21,8 @@ syntax on
 
 let g:onedark_color_overrides = {
 \ "white": {"gui": "#FFFFFF", "cterm": "255" },
-\ "comment_grey": {"gui": "#969696", "cterm": "150" },
+\ "comment_grey": {"gui": "#969696", "cterm": "255" },
+\ "visual_grey": {"gui": "#4f4f4f", "cterm": "255" },
 \}
 if (has("autocmd"))
   augroup colorextend
