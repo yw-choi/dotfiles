@@ -91,6 +91,10 @@ Plug 'shinchu/lightline-gruvbox.vim'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'junegunn/vim-peekaboo'
 
+Plug 'SirVer/ultisnips'
+" Snippets are separated from the engine. Add this if you want them:
+Plug 'honza/vim-snippets'
+
 " Initialize plugin system
 call plug#end()
 

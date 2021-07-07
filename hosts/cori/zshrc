@@ -7,14 +7,14 @@ module load impi python/3.8-anaconda-2020.11
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/intel/oneapi/intelpython/latest/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/usr/common/software/python/3.8-anaconda-2020.11/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/opt/intel/oneapi/intelpython/latest/etc/profile.d/conda.sh" ]; then
-        . "/opt/intel/oneapi/intelpython/latest/etc/profile.d/conda.sh"
+    if [ -f "/usr/common/software/python/3.8-anaconda-2020.11/etc/profile.d/conda.sh" ]; then
+        . "/usr/common/software/python/3.8-anaconda-2020.11/etc/profile.d/conda.sh"
     else
-        export PATH="/opt/intel/oneapi/intelpython/latest/bin:$PATH"
+        export PATH="/usr/common/software/python/3.8-anaconda-2020.11/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -37,3 +37,9 @@ bindkey '^W' cd-to-workspace
 
 export PYTHONPATH="/global/homes/y/ywchoi/.local/cori/3.8-anaconda-2020.11/lib:${PYTHONPATH}"
 export JUPYTER_PATH="/global/homes/y/ywchoi/.local/cori/3.8-anaconda-2020.11/lib:${JUPYTER_PATH}"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+alias qs=sqs
+alias qi='sinfo --format="%15b %8D %A"'
