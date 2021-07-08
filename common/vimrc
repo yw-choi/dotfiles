@@ -167,11 +167,6 @@ omap <leader><tab> <plug>(fzf-maps-o)
 map <C-W><C-t> :vert term<cr>
 
 " fzf.vim
-if exists('$TMUX')
-  let g:fzf_prefer_tmux = 1
-  let g:fzf_layout = { 'down': '30%' }
-endif
-
 function! s:find_git_root()
   return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
