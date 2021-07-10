@@ -5,14 +5,14 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home1/08203/ywchoi92/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/work/08203/ywchoi92/stampede2/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home1/08203/ywchoi92/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home1/08203/ywchoi92/miniconda3/etc/profile.d/conda.sh"
+    if [ -f "/work/08203/ywchoi92/stampede2/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/work/08203/ywchoi92/stampede2/miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/home1/08203/ywchoi92/miniconda3/bin:$PATH"
+        export PATH="/work/08203/ywchoi92/stampede2/miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -20,7 +20,30 @@ unset __conda_setup
 
 conda activate local
 
-module load python3
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+alias qs=sqs
+
+# module restore default
+module load python3 >& /dev/null
+
+export PATH=${WORK}/local/bin:${PATH}
+export LD_LIBRARY_PATH=${WORK}/local/lib:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${WORK}/local/lib64:${LD_LIBRARY_PATH}
+
+alias work="cd ${WORK}/Workspace"
+cd-to-workspace() {
+  zle push-line # Clear buffer. Auto-restored on next prompt.
+  BUFFER="cd ${WORK}/Workspace"
+  zle accept-line
+  local ret=$?
+  unset dir # ensure this doesn't end up appearing in prompt expansion
+  zle reset-prompt
+  return $ret
+}
+zle     -N   cd-to-workspace
+bindkey '^W' cd-to-workspace
+
+export SIESTA=${WORK}/Codes/siesta/4.1.5/Obj/siesta
+# export GITSTATUS_LOG_LEVEL=DEBUG
