@@ -42,7 +42,6 @@ main() {
 
   echo ">> Creating conda env"
   conda init zsh
-  conda create -n local python=3.8 numpy scipy matplotlib
 
   echo ">> Done!"
 }

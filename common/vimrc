@@ -4,7 +4,7 @@
 set nocompatible
 syntax enable
 filetype plugin on
-let g:python_recommended_style = 0
+" let g:python_recommended_style = 0
 
 let mapleader = ","
 set shell=zsh
