@@ -20,7 +20,7 @@ set tabstop=2
 set autoindent
 set smartindent
 set wrap
-set history=500
+set history=100
 set splitbelow
 set splitright
 set ignorecase
