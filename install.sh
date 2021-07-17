@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 HOST=$1
-HOSTLIST=("local" "cori")
+HOSTLIST=("local" "cori" "palm" "stampede2" "frontera")
 
 main() {
 
@@ -42,7 +42,6 @@ main() {
 
   echo ">> Creating conda env"
   conda init zsh
-  conda create -n local python=3.8 numpy scipy matplotlib
 
   echo ">> Done!"
 }
@@ -50,9 +49,8 @@ main() {
 print_usage() {
   echo "[Usage] ./install.sh host"
   echo ""
-  echo "host list"
-  echo "- local"
-  echo "- cori"
+  echo "host list:"
+  echo "${HOSTLIST}"
 }
 
 main
