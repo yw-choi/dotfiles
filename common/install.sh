@@ -14,9 +14,21 @@ BASEDIR=${TOPDIR}/common
 
 ln -sf ${BASEDIR}/z.sh ~/.z.sh
 ln -sf ${BASEDIR}/p10k.zsh ~/.p10k.zsh
-ln -sf ${BASEDIR}/vimrc ~/.vimrc
-ln -sf ${BASEDIR}/vim ~/.vim
 ln -sf ${BASEDIR}/zshrc ~/.zshrc.common
+
+# neovim-related
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+if [ ! -d ~/.config/nvim ] ; then
+  mkdir -p ~/.config/nvim
+fi
+ln -sf ${BASEDIR}/init.vim ~/.config/nvim/init.vim
+ln -sf ${BASEDIR}/init.vim ~/.vimrc
+
+
+# if [ ! -d ~/.vim ]; then
+#   ln -sf ${BASEDIR}/vim ~/.vim
+# fi
 
 touch ~/.z
 
