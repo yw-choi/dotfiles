@@ -24,10 +24,11 @@ if [ ! -d ~/.config/nvim ] ; then
   mkdir -p ~/.config/nvim
 fi
 ln -sf ${BASEDIR}/init.vim ~/.config/nvim/init.vim
+ln -sf ${BASEDIR}/coc-settings.json ~/.config/nvim/coc-settings.json
 ln -sf ${BASEDIR}/init.vim ~/.vimrc
 
 touch ~/.z
 
 echo ">> Installing neovim plugins.."
 nvim +PlugInstall +qall >/dev/null 2>&1
-nvim +CocInstall coc-pyright coc-vimtex coc-json +qall >/dev/null 2>&1
+nvim +CocInstall coc-pyright +qall >/dev/null 2>&1
