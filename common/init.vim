@@ -94,9 +94,12 @@ map <C-W>ts :sp<cr>:term<cr>
 
 " tab-related
 " Open terminals
-noremap <C-t> :tabnew<cr>
-map <C-[> :tabprevious<cr>
-map <C-]> :tabnext<cr>
+nmap <C-t>n :tabnew<cr>
+nmap <C-t>[ :tabprevious<cr>
+nmap <C-t>] :tabnext<cr>
+nmap <C-t><C-n> :tabnew<cr>
+nmap <C-t><C-[> :tabprevious<cr>
+nmap <C-t><C-]> :tabnext<cr>
 
 "==============="
 " Colorscheme   "
@@ -266,3 +269,4 @@ inoremap <expr> <c-l> fzf#vim#complete#line()
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
+
