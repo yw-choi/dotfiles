@@ -5,5 +5,6 @@
       "filetypes": ["fortran"],
       "rootPatterns": [".fortls", ".git/"]
     }
-  }
+  },
+  "python.pythonPath": "python3"
 }

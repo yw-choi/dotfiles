@@ -93,13 +93,13 @@ map <C-W>tv :vs<cr>:term<cr>
 map <C-W>ts :sp<cr>:term<cr>
 
 " tab-related
-" Open terminals
-nmap <C-t>n :tabnew<cr>
-nmap <C-t>[ :tabprevious<cr>
-nmap <C-t>] :tabnext<cr>
-nmap <C-t><C-n> :tabnew<cr>
-nmap <C-t><C-[> :tabprevious<cr>
-nmap <C-t><C-]> :tabnext<cr>
+nmap tn :tabnew<cr>
+nmap t[ :tabprevious<cr>
+nmap t] :tabnext<cr>
+nmap tc :tabclose<cr>
+" buffer-related
+nmap f[ :previous<cr>
+nmap f] :next<cr>
 
 "==============="
 " Colorscheme   "
@@ -181,12 +181,12 @@ endif
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> g[ <Plug>(coc-diagnostic-prev)
+nmap <silent> g] <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
+" np.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
