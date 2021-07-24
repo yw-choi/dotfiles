@@ -259,7 +259,7 @@ nnoremap <c-p>c :Commits<CR>
 nnoremap <c-p><c-c> :Commits<CR>
 
 " Insert mode completion
-inoremap <expr> <c-p> fzf#vim#complete#path('fd --type f --no-ignore --hidden --follow --exclude .git')
+inoremap <expr> <c-p> fzf#vim#complete#path('fd --type f --hidden --follow --exclude .git')
 inoremap <expr> <c-l> fzf#vim#complete#line()
 
 " List mappings

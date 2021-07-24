@@ -11,7 +11,8 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 
 ~/.fzf/install --all
 
-BASEDIR=`realpath`
+TOPDIR=$(git rev-parse --show-toplevel)
+BASEDIR=${TOPDIR}/common
 ln -sf ${BASEDIR}/z.sh ~/.z.sh
 ln -sf ${BASEDIR}/p10k.zsh ~/.p10k.zsh
 ln -sf ${BASEDIR}/zshrc ~/.zshrc.common

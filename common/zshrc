@@ -18,7 +18,7 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-export EDITOR=vim
+export EDITOR=nvim
 bindkey -v
 
 export PATH=${HOME}/local/bin:${PATH}
@@ -28,89 +28,23 @@ export LD_LIBRARY_PATH=${HOME}/local/lib64:${LD_LIBRARY_PATH}
 # common aliases
 alias l='ls -l'
 alias py=python
-alias gp='git push origin'
-alias gc='git commit -a -m'
-alias ga='git add -f'
-bindkey -r "^L"
 
 # fzf configs
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export FZF_CMD="fzf"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse"
-export FZF_DEFAULT_COMMAND="fd --type f --no-ignore-vcs --hidden --follow --exclude .git"
-export FZF_PREVIEW_BAT='bat --style=numbers --color=always --line-range :500 {}'
+export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude '.git'"
 export FZF_PREVIEW_DIR='fd . {} --max-depth 1 --color always --max-results 50'
 
-# Use fd and fzf to get the args to a command.
-# Works only with zsh
-# Examples:
-# f mv # To move files. You can write the destination after selecting the files.
-# f 'echo Selected:'
-# f 'echo Selected music:' --extention mp3
-# fm rm # To rm files in current directory
-f() {
-    sels=( "${(@f)$(fd "${fd_default[@]}" "${@:2}"| ${FZF_CMD} --preview ${FZF_PREVIEW_BAT})}" )
-    test -n "$sels" && print -z -- "$1 ${sels[@]:q:q}"
-}
-# fe [FUZZY PATTERN] - Open the selected file with the default editor
-#   - Bypass fuzzy finder if there's only one match (--select-1)
-#   - Exit if there's no match (--exit-0)
-fe() {
-  files=($(fd --type f --no-ignore-vcs --hidden --follow --exclude .git . ${@} \
-    | ${FZF_CMD} --preview ${FZF_PREVIEW_BAT} --multi --select-1 --exit-0))
-  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
 }
 
-# Modified version where you can press
-#   - CTRL-O to open with `open` command,
-#   - CTRL-E or Enter key to open with the $EDITOR
-fo-widget() {
-  IFS=$'\n' out=("$(fd --type f --no-ignore-vcs --hidden --follow --exclude .git . ${@} \
-    | ${FZF_CMD} --preview ${FZF_PREVIEW_BAT} --exit-0 --expect=ctrl-o,ctrl-e)")
-
-  key=$(head -1 <<< "$out")
-  file=$(head -2 <<< "$out" | tail -1)
-
-  if [[ ! -n "$file" ]]; then
-    zle accept-line
-    return
-  fi
-
-  zle push-line # Clear buffer. Auto-restored on next prompt.
-  LBUFFER="${EDITOR:-vim} $file"
-  zle accept-line
-  local ret=$?
-  zle reset-prompt
-  return $ret
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
 }
-zle     -N   fo-widget
-bindkey '^O' fo-widget
-
-# fuzzy grep open via ag with line number
-vg() {
-  local file
-  local line
-  read -r file line <<<"$(rg --no-heading -n -i --ignore-file .git --no-ignore-vcs --no-messages --column --color=always --smart-case ${1} \
-    $(fd --type f --no-ignore-vcs --hidden --follow --exclude .git ${@:2}) \
-    | ${FZF_CMD} --ansi --delimiter ':' --preview \
-    'bat --theme=gruvbox --style=numbers --color=always --highlight-line {2} {1}' \
-    --preview-window +{2}-/2 \
-    | awk -F: '{print $1, $2}')"
-
-  if [[ -n $file ]]
-  then
-     vim $file +$line
-  fi
-}
-gitroot() {
-  local targetdir=$(git rev-parse --show-toplevel 2> /dev/null)
-  if [ -z ${targetdir} ]; then
-    targetdir='./'
-  fi
-  echo -n $targetdir
-}
-
 
 # z integration (recent dirs)
 export _Z_NO_RESOLVE_SYMLINKS=1
@@ -119,85 +53,14 @@ unalias z 2> /dev/null
 # z - cd to recent directory
 z() {
   [ $# -gt 0 ] && _z "$*" && return
-  # cd "$(_z -lt 2>&1 | tac | awk '{print $2}' | ${FZF_CMD} --preview ${FZF_PREVIEW_DIR})"
-  cd "$(_z -lt 2>&1 | tac | awk '{print $2}' | ${FZF_CMD})"
+  cd "$(_z -lt 2>&1 | tac | awk '{print $2}' | ${FZF_CMD} --preview ${FZF_PREVIEW_DIR})"
 }
 
 # c - cd to selected directory
 c() {
   local dir
-  dir=$(fd --type d --hidden --no-ignore-vcs --follow --exclude ".git" . "$@" 2> /dev/null | ${FZF_CMD} --preview ${FZF_PREVIEW_DIR}) &&
+  dir=$(fd --type d --hidden --follow --exclude ".git" . "$@" 2> /dev/null | ${FZF_CMD} --preview ${FZF_PREVIEW_DIR}) &&
   cd "$dir"
-}
-
-# p - cd to selected parent directory
-realpath() {
-  OURPWD=$PWD
-  cd "$(dirname "$1")"
-  LINK=$(readlink "$(basename "$1")")
-  while [ "$LINK" ]; do
-    cd "$(dirname "$LINK")"
-    LINK=$(readlink "$(basename "$1")")
-  done
-  REALPATH="$PWD/$(basename "$1")"
-  cd "$OURPWD"
-  echo "$REALPATH"
-}
-p() {
-  local declare dirs=()
-  get_parent_dirs() {
-    if [[ -d "${1}" ]]; then dirs+=("$1"); else return; fi
-    if [[ "${1}" == '/' ]]; then
-      for _dir in "${dirs[@]}"; do echo $_dir; done
-    else
-      get_parent_dirs $(dirname "$1")
-    fi
-  }
-  local DIR=$(get_parent_dirs $(realpath "${1:-$PWD}") | ${FZF_CMD} \
-    --preview ${FZF_PREVIEW_DIR} --tac)
-  cd "$DIR"
-}
-
-export FZF_CTRL_T_COMMAND="fd --exclude .git --no-ignore-vcs --hidden --follow"
-export FZF_CTRL_T_OPTS="--preview '${FZF_PREVIEW_BAT}'"
-export FZF_ALT_C_COMMAND="fd --type d --exclude .git --no-ignore-vcs --hidden --follow"
-# CTRL-P - Search files from git root directory and paste the selected file path(s) into the command line
-__fsel_project() {
-  local targetdir=$(git rev-parse --show-toplevel 2> /dev/null)
-  if [ -z ${targetdir} ]; then
-    targetdir='./'
-  fi
-  local cmd="${FZF_CTRL_T_COMMAND} . ${targetdir}"
-
-  setopt localoptions pipefail no_aliases 2> /dev/null
-  local item
-  eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" $(__fzfcmd) --preview ${FZF_PREVIEW_BAT} -m "$@" | while read item; do
-    echo -n "${(q)item} "
-  done
-  local ret=$?
-  echo
-  return $ret
-}
-
-fzf-file-widget-project() {
-  LBUFFER="${LBUFFER}$(__fsel_project)"
-  local ret=$?
-  zle reset-prompt
-  return $ret
-}
-zle     -N   fzf-file-widget-project
-bindkey '^P' fzf-file-widget-project
-
-_fzf_comprun() {
-  local command=$1
-  shift
-  case "$command" in
-    vi) ${FZF_CMD} "$@" --preview ${FZF_PREVIEW_BAT} ;;
-    cd) FZF_DEFAULT_COMMAND="fd --type d --hidden --no-ignore-vcs --follow --exclude .git" ${FZF_CMD} "$@" \
-      --preview ${FZF_PREVIEW_DIR};;
-    export|unset) fzf "$@" --preview "eval 'echo \$'{}" ;;
-    *)            fzf "$@" ;;
-  esac
 }
 
 git config --global alias.root 'rev-parse --show-toplevel'
