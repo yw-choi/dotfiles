@@ -213,3 +213,5 @@ _fzf_comprun() {
 #   fi
 # }
 # alias vim=vit
+
+git config --global alias.root 'rev-parse --show-toplevel'
