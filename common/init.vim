@@ -11,7 +11,8 @@ Plug 'junegunn/vim-peekaboo'
 Plug 'airblade/vim-gitgutter'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'lervag/vimtex'
-
+Plug 'AndrewRadev/tagalong.vim'
+Plug 'posva/vim-vue'
 call plug#end()
 
 "==============="
@@ -21,7 +22,7 @@ set nocompatible
 syntax enable
 filetype plugin on
 
-let mapleader = ","
+let mapleader = ";"
 set nu
 set relativenumber
 set encoding=utf8
@@ -55,11 +56,12 @@ set ffs=unix,dos,mac
 set updatetime=100
 set cmdheight=2
 set shortmess+=c
-if has("nvim-0.5.0") || has("patch-8.1.1564")
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
+set signcolumn=yes
+" if has("nvim-0.5.0") || has("patch-8.1.1564")
+"   set signcolumn=number
+" else
+"   set signcolumn=yes
+" endif
 
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 " Delete trailing white space on save, useful for some filetypes ;)
@@ -78,7 +80,7 @@ autocmd BufWritePre * :call CleanExtraSpaces()
 " general
 map 0 ^
 " Clear search highlights
-map <silent> <leader><cr> :noh<cr>
+map <silent> ,<cr> :noh<cr>
 
 " Spell check
 map <leader>ss :setlocal spell!<cr>
@@ -93,13 +95,20 @@ map <C-W>tv :vs<cr>:term<cr>
 map <C-W>ts :sp<cr>:term<cr>
 
 " tab-related
+nmap t1 1gt
+nmap t2 2gt
+nmap t3 3gt
+nmap t4 4gt
+nmap t5 5gt
+nmap t6 6gt
+nmap t7 7gt
+nmap t8 8gt
+nmap t9 9gt
+nmap t0 0gt
 nmap tn :tabnew<cr>
-nmap t[ :tabprevious<cr>
-nmap t] :tabnext<cr>
+nmap th :tabprevious<cr>
+nmap tl :tabnext<cr>
 nmap tc :tabclose<cr>
-" buffer-related
-nmap f[ :previous<cr>
-nmap f] :next<cr>
 
 "==============="
 " Colorscheme   "
@@ -235,31 +244,24 @@ endif
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
 
+autocmd FileType scss setl iskeyword+=@-@
+
 "******************
 " fzf commands     "
 "******************
 nnoremap <c-e> :Files<CR>
-nnoremap <c-p>p :GFiles -co<CR>
-nnoremap <c-p><c-p> :GFiles -co<CR>
-nnoremap <c-p>; :Commands<CR>
-nnoremap <c-p>t :Files<CR>
-nnoremap <c-p><c-t> :Files<CR>
-nnoremap <c-p>r :History<CR>
-nnoremap <c-p><c-r> :History<CR>
-nnoremap <c-p>f :Rg<CR>
-nnoremap <c-p><c-f> :Rg<CR>
-nnoremap <c-p>b :Buffers<CR>
-nnoremap <c-p><c-b> :Buffers<CR>
-nnoremap <c-p>: :History:<CR>
-nnoremap <c-p>/ :History/<CR>
-nnoremap <c-p>g :GFiles<CR>
-nnoremap <c-p><c-g> :GFiles<CR>
-nnoremap <c-p>s :GFiles?<CR>
-nnoremap <c-p><c-s> :GFiles?<CR>
-nnoremap <c-p>l :Lines<CR>
-nnoremap <c-p><c-l> :Lines<CR>
-nnoremap <c-p>c :Commits<CR>
-nnoremap <c-p><c-c> :Commits<CR>
+nnoremap <c-p> :GFiles --exclude-standard --cached --others<CR>
+nnoremap <leader>e :Files<CR>
+nnoremap <leader>p :GFiles<CR>
+nnoremap <leader>f :Rg<CR>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>r :History<CR>
+nnoremap <leader>: :History:<CR>
+nnoremap <leader>/ :History/<CR>
+nnoremap <leader>; :Commands<CR>
+nnoremap <leader>s :GFiles?<CR>
+nnoremap <leader>l :Lines<CR>
+nnoremap <leader>c :Commits<CR>
 
 " Insert mode completion
 inoremap <expr> <c-p> fzf#vim#complete#path('fd --type f --hidden --follow --exclude .git')
