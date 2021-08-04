@@ -129,8 +129,12 @@ if (empty($TMUX))
   endif
 endif
 syntax on
+let g:onedark_color_overrides = {
+\ "foreground": {"gui": "#FFFFFF", "cterm": "15", "cterm16": "7" },
+\}
 colorscheme onedark
 let g:lightline = {'colorscheme': 'onedark'}
+
 
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
