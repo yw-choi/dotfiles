@@ -133,7 +133,6 @@ let g:onedark_color_overrides = {
 \ "foreground": {"gui": "#FFFFFF", "cterm": "15", "cterm16": "7" },
 \}
 colorscheme onedark
-let g:lightline = {'colorscheme': 'onedark'}
 
 
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
@@ -158,6 +157,21 @@ endfunction
 "================="
 " Plugin settings "
 "================="
+let g:lightline = {
+      \ 'colorscheme': 'onedark',
+      \ 'component_function': {
+      \   'filename': 'LightlineTruncatedFileName'
+      \ }
+      \ }
+
+function! LightlineTruncatedFileName()
+  let l:filePath = expand('%')
+  if winwidth(0) > strlen(l:filePath)
+      return l:filePath
+  else
+      return pathshorten(l:filePath)
+  endif
+endfunction
 
 "******************
 " Goyo

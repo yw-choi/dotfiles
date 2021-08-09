@@ -42,3 +42,5 @@ export QEBIN=${WORK}/Codes/qe/6.8/bin
 # export GITSTATUS_LOG_LEVEL=DEBUG
 
 export NODE_OPTIONS=--max_old_space_size=4096
+
+alias ls='/bin/ls --color=always'
