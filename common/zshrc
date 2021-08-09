@@ -30,6 +30,9 @@ alias ls='exa --icons --git --sort=type'
 alias l='ls -l'
 alias py=python
 
+export PYTASK_FILE='task.py'
+alias pyt="python $PYTASK_FILE"
+
 # fzf configs
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -59,9 +62,56 @@ z() {
 
 # c - cd to selected directory
 c() {
-  local dir
-  dir=$(fd --type d --hidden --follow --exclude ".git" . "$@" 2> /dev/null | ${FZF_CMD} --preview ${FZF_PREVIEW_DIR}) &&
-  cd "$dir"
+  local cmd="fd --type d --hidden --follow --exclude '.git' . $@ 2> /dev/null"
+  local dir=$(eval "${cmd}" | ${FZF_CMD} --preview ${FZF_PREVIEW_DIR})
+  if [[ ! -z "$dir" ]]; then
+    cd "$dir"
+  fi
 }
 
 git config --global alias.root 'rev-parse --show-toplevel'
+
+# CTRL-F - cd into the selected directory
+zle     -N    fzf-cd-widget
+bindkey '^F' fzf-cd-widget
+
+# CTRL-O search file under the current directory and open
+open-file-widget() {
+  local cmd="${FZF_DEFAULT_COMMAND} 2> /dev/null"
+  local files=$(eval "${cmd}" | ${FZF_CMD} --multi);
+  if [[ -z $files ]]; then
+    zle redisplay
+    return 0
+  fi
+  zle push-line # Clear buffer. Auto-restored on next prompt.
+  BUFFER="${EDITOR:-vim} ${files}"
+  zle accept-line
+  local ret=$?
+  unset dir # ensure this doesn't end up appearing in prompt expansion
+  zle reset-prompt
+  return $ret
+}
+zle     -N    open-file-widget
+bindkey '^O' open-file-widget
+
+# CTRL-P search file under the git root directory and open
+open-project-file-widget() {
+  local project_root=$(git rev-parse --show-toplevel 2> /dev/null)
+  echo $project_root
+  local cmd="${FZF_DEFAULT_COMMAND} . ${project_root} 2> /dev/null"
+  local files=$(eval "${cmd}" | ${FZF_CMD} --multi);
+  if [[ -z $files ]]; then
+    zle redisplay
+    return 0
+  fi
+  zle push-line # Clear buffer. Auto-restored on next prompt.
+  BUFFER="${EDITOR:-vim} ${files}"
+  zle accept-line
+  local ret=$?
+  unset dir # ensure this doesn't end up appearing in prompt expansion
+  zle reset-prompt
+  return $ret
+}
+zle     -N   open-project-file-widget
+bindkey '^P' open-project-file-widget
+

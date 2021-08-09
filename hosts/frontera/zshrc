@@ -4,7 +4,7 @@ source ~/.zshrc.common
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # module restore default
-module load python3 >& /dev/null
+module load python3 pdf5 >& /dev/null
 alias qs=sqs
 
 export PATH=${WORK}/local/bin:${PATH}
