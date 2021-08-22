@@ -26,8 +26,10 @@ export LD_LIBRARY_PATH=${HOME}/local/lib:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH=${HOME}/local/lib64:${LD_LIBRARY_PATH}
 
 # common aliases
-alias ls='exa --icons --git --sort=type'
+# alias ls='exa --icons --git --sort=type'
+alias ls='ls --color=auto'
 alias l='ls -l'
+alias lsr='ls -l --sort=date'
 alias py=python
 
 export PYTASK_FILE='task.py'
@@ -38,7 +40,7 @@ alias t="python $PYTASK_FILE"
 
 export FZF_CMD="fzf"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse"
-export FZF_DEFAULT_COMMAND="fd -I --type f --hidden --follow --exclude '.git'"
+export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude '.git'"
 export FZF_PREVIEW_DIR='fd . {} --max-depth 1 --color always --max-results 50'
 
 _fzf_compgen_path() {

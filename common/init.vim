@@ -13,6 +13,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'lervag/vimtex'
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'posva/vim-vue'
+Plug 'pappasam/coc-jedi', { 'do': 'yarn install --frozen-lockfile && yarn build' }
+Plug 'tell-k/vim-autopep8'
 call plug#end()
 
 "==============="
@@ -21,7 +23,6 @@ call plug#end()
 set nocompatible
 syntax enable
 filetype plugin on
-
 let mapleader = ";"
 set nu
 set relativenumber
@@ -289,4 +290,9 @@ inoremap <expr> <c-l> fzf#vim#complete#line()
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
+
+" Autopep8
+let g:autopep8_on_save = 1
+let g:autopep8_disable_show_diff=1
+
 
