@@ -59,7 +59,7 @@ unalias z 2> /dev/null
 # z - cd to recent directory
 z() {
   [ $# -gt 0 ] && _z "$*" && return
-  cd "$(_z -lt 2>&1 | tac | cut -d ' ' -f2- | awk '{$1=$1;print}' | ${FZF_CMD} --preview ${FZF_PREVIEW_DIR})"
+  cd "$(_z -lt 2>&1 | tac | cut -d ' ' -f2- | awk '{$1=$1;print}' | ${FZF_CMD})"
 }
 
 git config --global alias.root 'rev-parse --show-toplevel'
@@ -143,3 +143,7 @@ ctrl-g-widget() {
 }
 zle     -N   ctrl-g-widget
 bindkey '^G' ctrl-g-widget
+
+alias gl="git log --graph --oneline --decorate"
+alias gs="git status -s"
+alias gc="git commit -m"

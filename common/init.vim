@@ -132,6 +132,7 @@ endif
 syntax on
 let g:onedark_color_overrides = {
 \ "foreground": {"gui": "#FFFFFF", "cterm": "15", "cterm16": "7" },
+\ "background": {"gui": "#000000", "cterm": "0", "cterm16": "0" },
 \}
 colorscheme onedark
 
@@ -294,5 +295,4 @@ omap <leader><tab> <plug>(fzf-maps-o)
 " Autopep8
 let g:autopep8_on_save = 1
 let g:autopep8_disable_show_diff=1
-
 

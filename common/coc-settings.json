@@ -17,6 +17,5 @@
     "javascript",
     "python"
   ],
-  "pyright.enable": True,
-
+  "pyright.enable": true,
 }
