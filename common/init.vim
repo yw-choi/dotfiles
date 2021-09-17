@@ -12,7 +12,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'lervag/vimtex'
 Plug 'AndrewRadev/tagalong.vim'
-Plug 'posva/vim-vue'
 call plug#end()
 
 "==============="

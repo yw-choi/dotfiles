@@ -5,7 +5,7 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 export PATH=/usr/local/opt/ruby/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
-export PATH=$HOME/.gem/ruby/3.0.0/bin:$PATH
+export PATH=/Users/ywchoi/Library/Python/3.9/bin:${PATH}
 
 alias vim=nvim
 alias vi=vim
@@ -24,23 +24,11 @@ bindkey '^W' cd-to-workspace
 
 alias readlink=greadlink
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+alias julia=/Applications/Julia-1.6.app/Contents/Resources/julia/bin/julia
+
+# export PYTHONPATH=/usr/local/lib/python3.9/site-packages:${PYTHONPATH}
 source /opt/intel/oneapi/setvars.sh >& /dev/null
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/intel/oneapi/intelpython/latest/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/opt/intel/oneapi/intelpython/latest/etc/profile.d/conda.sh" ]; then
-        . "/opt/intel/oneapi/intelpython/latest/etc/profile.d/conda.sh"
-    else
-        export PATH="/opt/intel/oneapi/intelpython/latest/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
-conda activate local
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+conda activate 2021.3.0

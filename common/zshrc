@@ -28,6 +28,7 @@ export LD_LIBRARY_PATH=${HOME}/local/lib64:${LD_LIBRARY_PATH}
 # common aliases
 alias ls='exa --icons --git --sort=type'
 alias l='ls -l'
+alias lsr='ls -l --sort=date'
 alias py=python
 
 export PYTASK_FILE='task.py'
@@ -84,7 +85,7 @@ bindkey '^O' open-file-widget
 # CTRL-P search file under the git root directory and open
 open-project-file-widget() {
   local project_root=$(git rev-parse --show-toplevel 2> /dev/null)
-  project_root=$(realpath --relative-to=./ ${project_root})
+  project_root=$(realpath --relative-to=./ ${project_root} 2> /dev/null)
   local cmd="${FZF_DEFAULT_COMMAND} . ${project_root} 2> /dev/null"
   local files=$(eval "${cmd}" | ${FZF_CMD} --multi);
   if [[ -z $files ]]; then
@@ -141,3 +142,4 @@ ctrl-g-widget() {
 }
 zle     -N   ctrl-g-widget
 bindkey '^G' ctrl-g-widget
+
