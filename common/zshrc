@@ -26,7 +26,8 @@ export LD_LIBRARY_PATH=${HOME}/local/lib:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH=${HOME}/local/lib64:${LD_LIBRARY_PATH}
 
 # common aliases
-alias ls='exa --icons --git --sort=type'
+# alias ls='exa --icons --git --sort=type'
+alias ls='ls --color=auto'
 alias l='ls -l'
 alias lsr='ls -l --sort=date'
 alias py=python
@@ -39,7 +40,7 @@ alias t="python $PYTASK_FILE"
 
 export FZF_CMD="fzf"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse"
-export FZF_DEFAULT_COMMAND="fd -I --type f --hidden --follow --exclude '.git'"
+export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude '.git'"
 export FZF_PREVIEW_DIR='fd . {} --max-depth 1 --color always --max-results 50'
 
 _fzf_compgen_path() {
@@ -58,7 +59,7 @@ unalias z 2> /dev/null
 # z - cd to recent directory
 z() {
   [ $# -gt 0 ] && _z "$*" && return
-  cd "$(_z -lt 2>&1 | tac | cut -d ' ' -f2- | awk '{$1=$1;print}' | ${FZF_CMD} --preview ${FZF_PREVIEW_DIR})"
+  cd "$(_z -lt 2>&1 | tac | cut -d ' ' -f2- | awk '{$1=$1;print}' | ${FZF_CMD})"
 }
 
 git config --global alias.root 'rev-parse --show-toplevel'
@@ -143,3 +144,6 @@ ctrl-g-widget() {
 zle     -N   ctrl-g-widget
 bindkey '^G' ctrl-g-widget
 
+alias gl="git log --graph --oneline --decorate"
+alias gs="git status -s"
+alias gc="git commit -m"

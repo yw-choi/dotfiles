@@ -38,7 +38,7 @@ alias vi=nvim
 alias vim=nvim
 
 export SIESTA=${WORK}/Codes/siesta/4.1.5/Obj/siesta
-export QEBIN=${WORK}/Codes/qe/6.8/bin
+export PATH=${WORK}/Codes/qe/6.8/bin:${PATH}
 # export GITSTATUS_LOG_LEVEL=DEBUG
 
 export NODE_OPTIONS=--max_old_space_size=4096

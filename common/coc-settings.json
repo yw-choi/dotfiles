@@ -14,6 +14,8 @@
     "css",
     "markdown",
     "json",
-    "javascript"
-  ]
+    "javascript",
+    "python"
+  ],
+  "pyright.enable": true,
 }
