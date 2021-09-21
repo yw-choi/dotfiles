@@ -149,3 +149,10 @@ gl () {
 }
 alias gs="git status -s"
 alias gc="git commit -m"
+alias ga="git add"
+
+gae() {
+  for ext in $@; do
+    fd -I -e $ext | xargs git add -f
+  done
+}
