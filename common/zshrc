@@ -86,7 +86,7 @@ bindkey '^O' open-file-widget
 # CTRL-P search file under the git root directory and open
 open-project-file-widget() {
   local project_root=$(git rev-parse --show-toplevel 2> /dev/null)
-  project_root=$(realpath --relative-to=./ ${project_root})
+  project_root=$(realpath --relative-to=./ ${project_root} 2> /dev/null)
   local cmd="${FZF_DEFAULT_COMMAND} . ${project_root} 2> /dev/null"
   local files=$(eval "${cmd}" | ${FZF_CMD} --multi);
   if [[ -z $files ]]; then
