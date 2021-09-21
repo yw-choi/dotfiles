@@ -144,6 +144,13 @@ ctrl-g-widget() {
 zle     -N   ctrl-g-widget
 bindkey '^G' ctrl-g-widget
 
-alias gl="git log --graph --oneline --decorate"
+alias gl="git --no-pager log --graph --oneline --decorate"
 alias gs="git status -s"
 alias gc="git commit -m"
+alias ga="git add"
+
+gae() {
+  for ext in $@; do
+    fd -I -e $ext | xargs git add -f
+  done
+}
