@@ -27,7 +27,7 @@ export LD_LIBRARY_PATH=${HOME}/local/lib64:${LD_LIBRARY_PATH}
 
 # common aliases
 # alias ls='exa --icons --git --sort=type'
-alias ls='ls --color=auto'
+alias ls='ls -G'
 alias l='ls -l'
 alias lsr='ls -l --sort=date'
 alias py=python
@@ -144,6 +144,8 @@ ctrl-g-widget() {
 zle     -N   ctrl-g-widget
 bindkey '^G' ctrl-g-widget
 
-alias gl="git log --graph --oneline --decorate"
+gl () {
+  git --no-pager log --format=format:"%Cgreen %h %Cblue %cs %Creset %s %Cred %N" --graph $@
+}
 alias gs="git status -s"
 alias gc="git commit -m"
