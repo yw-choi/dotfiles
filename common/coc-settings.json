@@ -1,0 +1,21 @@
+{
+  "languageserver": {
+    "fortran": {
+      "command": "fortls",
+      "filetypes": ["fortran"],
+      "rootPatterns": [".fortls", ".git/"]
+    }
+  },
+  "python.pythonPath": "python3",
+  "coc.preferences.formatOnSaveFiletypes": [
+    "html",
+    "js",
+    "vue",
+    "css",
+    "markdown",
+    "json",
+    "javascript",
+    "python"
+  ],
+  "pyright.enable": true,
+}

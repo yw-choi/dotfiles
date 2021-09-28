@@ -1,0 +1,39 @@
+
+source ~/.zshrc.common
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+export WORK=/work/08203/ywchoi92/frontera
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+alias qs=sqs
+
+# module restore default
+module load python3 >& /dev/null
+alias python=python3
+export PATH=${HOME}/.local/bin:${PATH}
+export PATH=${WORK}/local/bin:${PATH}
+export LD_LIBRARY_PATH=${WORK}/local/lib:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${WORK}/local/lib64:${LD_LIBRARY_PATH}
+
+alias work="cd ${WORK}/Workspace"
+cd-to-workspace() {
+  zle push-line # Clear buffer. Auto-restored on next prompt.
+  BUFFER="cd ${WORK}/Workspace"
+  zle accept-line
+  local ret=$?
+  unset dir # ensure this doesn't end up appearing in prompt expansion
+  zle reset-prompt
+  return $ret
+}
+zle     -N   cd-to-workspace
+bindkey '^W' cd-to-workspace
+
+export SIESTA=${WORK}/Codes/siesta/4.1.5/Obj/siesta
+# export GITSTATUS_LOG_LEVEL=DEBUG
+
+alias vi=nvim
+alias vim=nvim
+
+export PATH=${WORK}/Codes/qe/6.8/bin:${PATH}

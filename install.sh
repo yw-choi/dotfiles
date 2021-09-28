@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 HOST=$1
-HOSTLIST=("local" "cori" "palm" "stampede2")
+HOSTLIST=("local" "cori" "palm" "stampede2" "frontera")
 
 main() {
 
@@ -29,20 +29,6 @@ main() {
   fi
 
   source ~/.zshrc;
-
-  if [ ! -f ~/.vim/autoload/plug.vim ]; then
-    # vim-plug
-    echo "Installing vim-plug.."
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  fi
-
-  echo ">> Installing vim plugins.."
-  vim +PlugInstall +qall >/dev/null 2>&1
-
-  echo ">> Creating conda env"
-  conda init zsh
-  conda create -n local python=3.8 numpy scipy matplotlib
 
   echo ">> Done!"
 }
