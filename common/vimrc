@@ -48,6 +48,15 @@ let fortran_more_precise=1
 let fortran_have_tabs=1
 let fortran_free_source=1
 
+let s:extfname = expand("%:e")
+if s:extfname ==? "f90" || s:extfname ==? "F90"
+  let fortran_free_source=1
+  unlet! fortran_fixed_source
+else
+  let fortran_fixed_source=1
+  unlet! fortran_free_source
+endif
+
 highlight EndOfBuffer ctermfg=black guifg=black
 
 
@@ -94,6 +103,8 @@ Plug 'junegunn/vim-peekaboo'
 Plug 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
 Plug 'honza/vim-snippets'
+
+Plug 'davidhalter/jedi-vim'
 
 " Initialize plugin system
 call plug#end()
