@@ -144,9 +144,10 @@ ctrl-g-widget() {
 zle     -N   ctrl-g-widget
 bindkey '^G' ctrl-g-widget
 
-gl () {
+gl() {
   git --no-pager log --format=format:"%Cgreen %h %Cblue %cs %Creset %s %Cred %N" --graph $@
 }
+
 alias gs="git status -s"
 alias gc="git commit -m"
 alias ga="git add"
@@ -156,3 +157,5 @@ gae() {
     fd -I -e $ext | xargs git add -f
   done
 }
+
+alias em=emacs

@@ -31,4 +31,4 @@ alias julia=/Applications/Julia-1.6.app/Contents/Resources/julia/bin/julia
 # export PYTHONPATH=/usr/local/lib/python3.9/site-packages:${PYTHONPATH}
 source /opt/intel/oneapi/setvars.sh >& /dev/null
 
-conda activate 2021.3.0
+conda activate local
