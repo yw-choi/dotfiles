@@ -44,12 +44,12 @@ export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude '.git'"
 export FZF_PREVIEW_DIR='fd . {} --max-depth 1 --color always --max-results 50'
 
 _fzf_compgen_path() {
-  fd --hidden --follow --exclude ".git" . "$1"
+  fd -I --hidden --follow --exclude ".git" . "$1"
 }
 
 # Use fd to generate the list for directory completion
 _fzf_compgen_dir() {
-  fd --type d --hidden --follow --exclude ".git" . "$1"
+  fd -I --type d --hidden --follow --exclude ".git" . "$1"
 }
 
 # z integration (recent dirs)
@@ -106,7 +106,7 @@ bindkey '^P' open-project-file-widget
 
 # CTRL-F - cd to selected directory
 ctrl-f-widget() {
-  local cmd="fd --type d --hidden --follow --exclude '.git' . 2> /dev/null"
+  local cmd="fd -I --type d --hidden --follow --exclude '.git' . 2> /dev/null"
   local dir=$(eval "${cmd}" | ${FZF_CMD} --preview ${FZF_PREVIEW_DIR})
   if [[ -z "$dir" ]]; then
     zle redisplay
@@ -127,7 +127,7 @@ bindkey '^F' ctrl-f-widget
 ctrl-g-widget() {
   local project_root=$(git rev-parse --show-toplevel 2> /dev/null)
   project_root=$(realpath --relative-to=./ ${project_root})
-  local cmd="fd --type d --hidden --follow --exclude '.git' . ${project_root} 2> /dev/null"
+  local cmd="fd -I --type d --hidden --follow --exclude '.git' . ${project_root} 2> /dev/null"
   local dir=$(eval "${cmd}" | ${FZF_CMD} --preview ${FZF_PREVIEW_DIR})
   if [[ -z "$dir" ]]; then
     zle redisplay
@@ -144,11 +144,10 @@ ctrl-g-widget() {
 zle     -N   ctrl-g-widget
 bindkey '^G' ctrl-g-widget
 
-gl() {
-  git --no-pager log --format=format:"%Cgreen %h %Cblue %cs %Creset %s %Cred %N" --graph $@
+gl () {
+  git --no-pager log --format=format:"%Cgreen %h %Cblue %cd %Creset %s %Cred %N" --date=short --graph $@
 }
-
-alias gs="git status -s"
+alias gs="git status -s -uno"
 alias gc="git commit -m"
 alias ga="git add"
 
