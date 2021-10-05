@@ -150,7 +150,7 @@ gl () {
 alias gs="git status -s -uno"
 alias gc="git commit -m"
 alias ga="git add"
-alias gps="git push origin main"
+alias gpu="git push origin main"
 alias gpl="git pull origin main"
 
 gae() {
