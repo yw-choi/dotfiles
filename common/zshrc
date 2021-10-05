@@ -145,7 +145,7 @@ zle     -N   ctrl-g-widget
 bindkey '^G' ctrl-g-widget
 
 gl () {
-  git --no-pager log --format=format:"%Cgreen %h %Cblue %cd %Creset %s %Cred %N" --date=short --graph $@
+  git --no-pager log --format=format:"%Cgreen %h %Cblue %cd %Creset %s %Cred %d" --date=short $@
 }
 alias gs="git status -s -uno"
 alias gc="git commit -m"
