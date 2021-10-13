@@ -12,8 +12,11 @@ Plug 'airblade/vim-gitgutter'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'lervag/vimtex'
 Plug 'AndrewRadev/tagalong.vim'
-Plug 'pappasam/coc-jedi', { 'do': 'yarn install --frozen-lockfile && yarn build' }
 Plug 'tell-k/vim-autopep8'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
+Plug 'pappasam/coc-jedi', { 'do': 'yarn install --frozen-lockfile && yarn build' }
+
 call plug#end()
 
 "==============="
@@ -283,7 +286,7 @@ nnoremap <leader>l :Lines<CR>
 nnoremap <leader>c :Commits<CR>
 
 " Insert mode completion
-inoremap <expr> <c-p> fzf#vim#complete#path('fd --type f --hidden --follow --exclude .git')
+inoremap <expr> <c-p> fzf#vim#complete#path('fd -I --type f --hidden --follow --exclude .git')
 inoremap <expr> <c-l> fzf#vim#complete#line()
 
 " List mappings

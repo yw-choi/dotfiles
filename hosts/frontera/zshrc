@@ -4,7 +4,7 @@ source ~/.zshrc.common
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # module restore default
-module load python3 pdf5 >& /dev/null
+module load python3 >& /dev/null
 alias qs=sqs
 
 export PATH=${WORK}/local/bin:${PATH}
@@ -37,7 +37,8 @@ export EDITOR=nvim
 alias vi=nvim
 alias vim=nvim
 
-export SIESTA=${WORK}/Codes/siesta/4.1.5/Obj/siesta
+# export PATH=${WORK}/Codes/siesta/psml-support/Obj:${PATH}
+export PATH=${WORK}/Codes/siesta/4.1.5/Obj:${PATH}
 export PATH=${WORK}/Codes/qe/6.8/bin:${PATH}
 # export GITSTATUS_LOG_LEVEL=DEBUG
 
