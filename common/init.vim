@@ -278,9 +278,9 @@ nnoremap <leader>p :GFiles<CR>
 nnoremap <leader>f :Rg<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>r :History<CR>
-nnoremap <leader>: :History:<CR>
+nnoremap <leader>; :History:<CR>
 nnoremap <leader>/ :History/<CR>
-nnoremap <leader>; :Commands<CR>
+nnoremap <leader>: :Commands<CR>
 nnoremap <leader>s :GFiles?<CR>
 nnoremap <leader>l :Lines<CR>
 nnoremap <leader>c :Commits<CR>

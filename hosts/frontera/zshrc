@@ -7,6 +7,8 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 module load python3 >& /dev/null
 alias qs=sqs
 
+export WORK=/work/08203/ywchoi92/frontera
+
 export PATH=${WORK}/local/bin:${PATH}
 export LD_LIBRARY_PATH=${WORK}/local/lib:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH=${WORK}/local/lib64:${LD_LIBRARY_PATH}
@@ -38,7 +40,7 @@ alias vi=nvim
 alias vim=nvim
 
 # export PATH=${WORK}/Codes/siesta/psml-support/Obj:${PATH}
-export PATH=${WORK}/Codes/siesta/4.1.5/Obj:${PATH}
+export PATH=${WORK}/Codes/siesta/4.1.5/Obj-CLX:${PATH}
 export PATH=${WORK}/Codes/qe/6.8/bin:${PATH}
 # export GITSTATUS_LOG_LEVEL=DEBUG
 
