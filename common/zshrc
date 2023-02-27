@@ -158,5 +158,4 @@ gae() {
     fd -I -e $ext | xargs git add -f
   done
 }
-
 alias em=emacs
