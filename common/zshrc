@@ -39,7 +39,7 @@ alias t="python $PYTASK_FILE"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export FZF_CMD="fzf"
-export FZF_DEFAULT_OPTS="--height 40% --layout=reverse"
+export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --keep-right"
 export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude '.git'"
 export FZF_PREVIEW_DIR='fd . {} --max-depth 1 --color always --max-results 50'
 
@@ -59,7 +59,7 @@ unalias z 2> /dev/null
 # z - cd to recent directory
 z() {
   [ $# -gt 0 ] && _z "$*" && return
-  cd "$(_z -lt 2>&1 | tac | cut -d ' ' -f2- | awk '{$1=$1;print}' | ${FZF_CMD})"
+  cd "$(_z -lt 2>&1 | tac | awk '{print $2}' | ${FZF_CMD})"
 }
 
 git config --global alias.root 'rev-parse --show-toplevel'
