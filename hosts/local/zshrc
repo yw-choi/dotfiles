@@ -1,4 +1,3 @@
-
 source ~/.zshrc.common
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -6,17 +5,13 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 export PATH=$HOME/.local/bin:$PATH
 export PATH=/usr/local/opt/ruby@3.1/bin:${PATH}
 
-export EDITOR=code
-alias vim=code
-alias vi=code
-
-alias readlink=greadlink
+export EDITOR=nvim
+alias vim=nvim
+alias vi=nvim
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-alias julia=/Applications/Julia-1.7.app/Contents/Resources/julia/bin/julia
-
-source /opt/intel/oneapi/setvars.sh >& /dev/null
+# source /opt/intel/oneapi/setvars.sh 
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
