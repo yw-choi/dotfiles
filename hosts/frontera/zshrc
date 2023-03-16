@@ -15,8 +15,6 @@ export LD_LIBRARY_PATH=${WORK}/local/lib64:${LD_LIBRARY_PATH}
 
 export PATH=${HOME}/.local/bin:${PATH}
 
-alias co=code
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 alias python=python3
@@ -24,14 +22,7 @@ alias py=python
 
 export EDITOR=nvim
 
-# alias vi=code
-unalias vi >& /dev/null
-vi () {
-    code "$@" >& /dev/null
-    if [[ $? -ne 0 ]]; then
-        nvim "$@"
-    fi
-}
+alias vi=nvim
 alias vim=nvim
 
 # export PATH=${WORK}/Codes/siesta/psml-support/Obj:${PATH}
