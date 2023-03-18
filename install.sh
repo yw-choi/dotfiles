@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 HOST=$1
-HOSTLIST=("local" "cori" "palm" "stampede2" "frontera")
+HOSTLIST=("local" "cori" "palm" "stampede2" "frontera" "bridges2")
 
 main() {
 
