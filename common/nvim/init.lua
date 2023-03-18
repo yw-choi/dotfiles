@@ -1,4 +1,4 @@
-vim.g.mapleader = ","
+vim.g.mapleader = " "
 
 -------------------------
 -- lazy plugin manager --
@@ -141,6 +141,7 @@ vim.g["autopep8_disable_show_diff"] =1
 -- telescope
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fp', builtin.git_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
@@ -197,4 +198,7 @@ local keymap = vim.keymap
 keymap.set("n", "<leader><CR>", ":nohl<CR>")
 keymap.set("n", "0", "^")
 keymap.set("n", "x", '"_x')
-
+keymap.set("n", "tn", ":tabnew<CR>")
+keymap.set("n", "tw", ":tabclose<CR>")
+keymap.set("n", "th", ":tabprevious<CR>")
+keymap.set("n", "tl", ":tabnext<CR>")
