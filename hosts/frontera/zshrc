@@ -4,7 +4,7 @@ source ~/.zshrc.common
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # module restore default
-module load python3 phdf5 >& /dev/null
+# module load python3 phdf5 >& /dev/null
 alias qs=sqs
 
 export WORK=/work/08203/ywchoi92/frontera
