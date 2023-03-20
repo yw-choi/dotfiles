@@ -1,0 +1,18 @@
+
+source ~/.zshrc.common
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+export PATH=${HOME}/local/bin:${PATH}
+
+alias ls='/bin/ls --color=always'
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+alias python=python3
+alias py=python
+
+export EDITOR=nvim
+
+alias vi=nvim
+alias vim=nvim
+alias ls='/bin/ls --color=always'
