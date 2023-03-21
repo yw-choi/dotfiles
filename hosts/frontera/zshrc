@@ -4,8 +4,10 @@ source ~/.zshrc.common
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # module restore default
-module load python3 >& /dev/null
+# module load python3 phdf5 >& /dev/null
 alias qs=sqs
+
+export WORK=/work/08203/ywchoi92/frontera
 
 export PATH=${WORK}/local/bin:${PATH}
 export LD_LIBRARY_PATH=${WORK}/local/lib:${LD_LIBRARY_PATH}
@@ -13,42 +15,38 @@ export LD_LIBRARY_PATH=${WORK}/local/lib64:${LD_LIBRARY_PATH}
 
 export PATH=${HOME}/.local/bin:${PATH}
 
-alias work="cd ${WORK}/Workspace"
-cd-to-workspace() {
-  zle push-line # Clear buffer. Auto-restored on next prompt.
-  BUFFER="cd ${WORK}/Workspace"
-  zle accept-line
-  local ret=$?
-  unset dir # ensure this doesn't end up appearing in prompt expansion
-  zle reset-prompt
-  return $ret
-}
-zle     -N   cd-to-workspace
-bindkey '^W' cd-to-workspace
-
-alias co=code
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 alias python=python3
 alias py=python
 
 export EDITOR=nvim
+
 alias vi=nvim
 alias vim=nvim
 
 # export PATH=${WORK}/Codes/siesta/psml-support/Obj:${PATH}
-export PATH=${WORK}/Codes/siesta/4.1.5/Obj:${PATH}
-export PATH=${WORK}/Codes/qe/6.8/bin:${PATH}
+export PATH=${HOME}/siesta-4.1.5-elpa/Obj:${PATH}
+export PATH=${HOME}/qe-7.1/bin:${PATH}
 # export GITSTATUS_LOG_LEVEL=DEBUG
 
-export NODE_OPTIONS=--max_old_space_size=4096
 alias ls='/bin/ls --color=always'
 
-mkcase() {
-  if mkdir $@; then
-    local dirname="${@: -1}"
-    echo "*" >> ${dirname}/.gitignore
-    echo "!.gitignore" >> ${dirname}/.gitignore
-  fi
-}
+export CC=icc
+export FC=ifort
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/work/08203/ywchoi92/frontera/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/work/08203/ywchoi92/frontera/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/work/08203/ywchoi92/frontera/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/work/08203/ywchoi92/frontera/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+

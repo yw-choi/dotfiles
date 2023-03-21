@@ -1,34 +1,31 @@
-
 source ~/.zshrc.common
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-export PATH=/usr/local/opt/ruby/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
-export PATH=/Users/ywchoi/Library/Python/3.9/bin:${PATH}
+export PATH=/usr/local/opt/ruby@3.1/bin:${PATH}
 
+export EDITOR=nvim
 alias vim=nvim
-alias vi=vim
-alias cdw="cd ${HOME}/Workspace"
-cd-to-workspace() {
-  zle push-line # Clear buffer. Auto-restored on next prompt.
-  BUFFER="cd ${HOME}/Workspace"
-  zle accept-line
-  local ret=$?
-  unset dir # ensure this doesn't end up appearing in prompt expansion
-  zle reset-prompt
-  return $ret
-}
-zle     -N   cd-to-workspace
-bindkey '^W' cd-to-workspace
-
-alias readlink=greadlink
+alias vi=nvim
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-alias julia=/Applications/Julia-1.6.app/Contents/Resources/julia/bin/julia
+# source /opt/intel/oneapi/setvars.sh 
 
-# export PYTHONPATH=/usr/local/lib/python3.9/site-packages:${PYTHONPATH}
-source /opt/intel/oneapi/setvars.sh >& /dev/null
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/ywchoi/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/ywchoi/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/ywchoi/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/ywchoi/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 
 conda activate local

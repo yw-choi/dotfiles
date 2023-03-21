@@ -8,10 +8,6 @@
 
 - rg
 - fd
-- bat
-- exa
-
-- fortls
 
 2. run
 ```sh
