@@ -179,6 +179,8 @@ opt.splitbelow = true
 
 opt.iskeyword:append('-')
 
+vim.wo.wrap = true
+
 -----------------
 -- colorscheme --
 -----------------
