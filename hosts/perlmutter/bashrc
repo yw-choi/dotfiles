@@ -38,14 +38,35 @@ export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --keep-right"
 export FZF_DEFAULT_COMMAND="fd --type f --follow"
 export FZF_PREVIEW_DIR='fd . {} --max-depth 1 --color always --max-results 50'
 
-_fzf_ctrl_t_cmd() {
+_fzf_ctrl_p_cmd() {
   if git rev-parse --show-toplevel >& /dev/null; then
-    git rev-parse --show-toplevel | xargs git ls-files
+    fd . $(git rev-parse --show-toplevel) 
   else 
-    ${FZF_DEFAULT_COMMAND}
+    fd 
   fi
 }
-export FZF_CTRL_T_COMMAND="_fzf_ctrl_t_cmd"
+export FZF_CTRL_P_COMMAND="_fzf_ctrl_p_cmd"
+export FZF_CTRL_T_COMMAND="fd"
+
+__fzf_select_git__() {
+  local cmd opts
+  cmd="${FZF_CTRL_P_COMMAND}"
+  opts="--height ${FZF_TMUX_HEIGHT:-40%} --bind=ctrl-z:ignore --reverse ${FZF_DEFAULT_OPTS-} ${FZF_CTRL_T_OPTS-} -m"
+  eval "$cmd" |
+    FZF_DEFAULT_OPTS="$opts" $(__fzfcmd) "$@" |
+    while read -r item; do
+      printf '%q ' "$item"  # escape special chars
+    done
+}
+fzf-project-file-widget() {
+  local selected="$(__fzf_select_git__ "$@")"
+  READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
+  READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
+}
+# CTRL-P - Paste the selected files in the current git project into the command line
+bind -m emacs-standard -x '"\C-p": fzf-project-file-widget'
+bind -m vi-command -x '"\C-p": fzf-project-file-widget'
+bind -m vi-insert -x '"\C-p": fzf-project-file-widget'
 
 _fzf_compgen_path() {
   fd -I --hidden --follow --exclude ".git" . "$1"
@@ -64,6 +85,10 @@ unalias z 2> /dev/null
 z() {
   [ $# -gt 0 ] && _z "$*" && return
   cd "$(_z -lt 2>&1 | tac | awk '{print $2}' | ${FZF_CMD})"
+}
+
+c() {
+  cd $(fd -I --type d | fzf)
 }
 
 git config --global alias.root 'rev-parse --show-toplevel'
