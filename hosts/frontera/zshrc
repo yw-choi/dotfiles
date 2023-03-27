@@ -4,15 +4,10 @@ source ~/.zshrc.common
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # module restore default
-# module load python3 phdf5 >& /dev/null
-alias qs=sqs
+alias qs="sqs"
 
 export WORK=/work/08203/ywchoi92/frontera
-
-export PATH=${WORK}/local/bin:${PATH}
-export LD_LIBRARY_PATH=${WORK}/local/lib:${LD_LIBRARY_PATH}
-export LD_LIBRARY_PATH=${WORK}/local/lib64:${LD_LIBRARY_PATH}
-
+export PATH=${HOME}/local/bin:${PATH}
 export PATH=${HOME}/.local/bin:${PATH}
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -28,25 +23,9 @@ alias vim=nvim
 # export PATH=${WORK}/Codes/siesta/psml-support/Obj:${PATH}
 export PATH=${HOME}/siesta-4.1.5-elpa/Obj:${PATH}
 export PATH=${HOME}/qe-7.1/bin:${PATH}
+export LD_LIBRARY_PATH=${HOME}/local/lib:${LD_LIBRARY_PATH}
 # export GITSTATUS_LOG_LEVEL=DEBUG
 
 alias ls='/bin/ls --color=always'
 
-export CC=icc
-export FC=ifort
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/work/08203/ywchoi92/frontera/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/work/08203/ywchoi92/frontera/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/work/08203/ywchoi92/frontera/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/work/08203/ywchoi92/frontera/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
+module load python3/3.9.2 parallel-netcdf phdf5 
