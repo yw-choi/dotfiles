@@ -1,0 +1,92 @@
+# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# useful alias
+alias perlmutter='ssh perlmutter.nersc.gov'
+alias squ="squeue -O 'UserName,State,Name,Partition,NumTasks,NumNodes,BatchHost,TimeUsed,TimeLimit,SubmitTime,StartTime' -u $USER"
+alias sq="squeue -O 'UserName,State,Name,Partition,NumTasks,NumNodes,BatchHost,TimeUsed,TimeLimit,SubmitTime,StartTime'"
+
+# history setting https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html
+export HISTFILESIZE=1000
+export HISTSIZE=1000
+export HISTTIMEFORMAT="%h %d %H:%M:%S "
+
+# user bin directory
+export PATH=$HOME/.local/bin:$PATH
+
+set -o vi
+
+export PATH=${HOME}/local/bin:${PATH}
+export LD_LIBRARY_PATH=${HOME}/local/lib:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${HOME}/local/lib64:${LD_LIBRARY_PATH}
+
+export EDITOR=nvim
+alias vi=nvim
+alias vim=nvim
+
+# common aliases
+# alias ls='exa --icons --git --sort=type'
+alias ls='ls --color=auto'
+alias l='ls -l'
+alias lsr='ls -l --sort=date'
+alias py=python
+alias qs=sqs
+
+# fzf configs
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+export FZF_CMD="fzf"
+export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --keep-right"
+export FZF_DEFAULT_COMMAND="fd --type f --follow"
+export FZF_PREVIEW_DIR='fd . {} --max-depth 1 --color always --max-results 50'
+
+_fzf_ctrl_t_cmd() {
+  if git rev-parse --show-toplevel >& /dev/null; then
+    git rev-parse --show-toplevel | xargs git ls-files
+  else 
+    ${FZF_DEFAULT_COMMAND}
+  fi
+}
+export FZF_CTRL_T_COMMAND="_fzf_ctrl_t_cmd"
+
+_fzf_compgen_path() {
+  fd -I --hidden --follow --exclude ".git" . "$1"
+}
+
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd -I --type d --hidden --follow --exclude ".git" . "$1"
+}
+
+# z integration (recent dirs)
+export _Z_NO_RESOLVE_SYMLINKS=1
+source ${HOME}/.z.sh
+unalias z 2> /dev/null
+# z - cd to recent directory
+z() {
+  [ $# -gt 0 ] && _z "$*" && return
+  cd "$(_z -lt 2>&1 | tac | awk '{print $2}' | ${FZF_CMD})"
+}
+
+git config --global alias.root 'rev-parse --show-toplevel'
+
+gl () {
+  git --no-pager log --format=format:"%Cgreen %h %Cblue %cd %Creset %s %Cred %d" --date=short $@
+}
+alias gs="git status -s -uno"
+alias gc="git commit -m"
+alias ga="git add"
+alias gpu="git push origin main"
+alias gpl="git pull origin main"
+
+gae() {
+  for ext in $@; do
+    fd -I -e $ext | xargs git add -f
+  done
+}
+
+module load cray-python espresso/7.1-libxc-6.1.0-cpu cray-hdf5-parallel cray-netcdf-hdf5parallel
+
+export OMP_NUM_THREADS=1
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+export HISTSIZE=1000000
+export HISTFILESIZE=10000
+
