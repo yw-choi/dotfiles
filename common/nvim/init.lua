@@ -20,8 +20,9 @@ vim.opt.rtp:prepend(lazypath)
 -- load plugins --
 ------------------
 require("lazy").setup({
-  'joshdick/onedark.vim',
-  'itchyny/lightline.vim',
+  'kyazdani42/nvim-web-devicons',
+  'nvim-lualine/lualine.nvim',
+	'rose-pine/neovim',
   'tpope/vim-commentary',
   'tell-k/vim-autopep8',
   { 'nvim-telescope/telescope.nvim', tag = '0.1.1', dependencies = { 'nvim-lua/plenary.nvim' } },
@@ -32,7 +33,8 @@ require("lazy").setup({
   'hrsh7th/cmp-cmdline',
   'hrsh7th/nvim-cmp',
   'hrsh7th/cmp-vsnip',
-  'hrsh7th/vim-vsnip'
+  'hrsh7th/vim-vsnip',
+  { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' }
 })
 
 -- <<< Set up nvim-cmp. 
@@ -147,6 +149,38 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>fr', builtin.oldfiles, {})
 
+-- 
+require'nvim-treesitter.configs'.setup {
+  -- A list of parser names, or "all" (the five listed parsers should always be installed)
+  ensure_installed = { "c", "lua", "vim", "help", "fortran", "python", "bash", },
+
+  -- Install parsers synchronously (only applied to `ensure_installed`)
+  sync_install = false,
+
+  -- Automatically install missing parsers when entering buffer
+  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+  auto_install = false,
+
+  highlight = {
+    enable = true,
+
+    -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+    disable = function(lang, buf)
+        local max_filesize = 100 * 1024 -- 100 KB
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        if ok and stats and stats.size > max_filesize then
+            return true
+        end
+    end,
+
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+}
+
 -----------------
 -- vim options --
 -----------------
@@ -184,14 +218,8 @@ vim.wo.wrap = true
 -----------------
 -- colorscheme --
 -----------------
-vim.g["lightline"] = { colorscheme='onedark' }
-vim.g["onedark_color_overrides"] = {
- background = {gui = "#000000", cterm = "00", cterm16 = "0" },
- foreground = {gui = "#FFFFFF", cterm = "15", cterm16 = "7" },
-}
-
 vim.cmd("syntax on")
-vim.cmd("colorscheme onedark")
+vim.cmd('colorscheme rose-pine')
 
 ------------
 -- keymap --

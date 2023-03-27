@@ -88,7 +88,10 @@ z() {
 }
 
 c() {
-  cd $(fd -I --type d | fzf)
+  TARGET=$(fd -I --type d | fzf)
+  if [ ! -z "$TARGET" ]; then
+    cd $TARGET
+  fi
 }
 
 git config --global alias.root 'rev-parse --show-toplevel'
