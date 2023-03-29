@@ -40,13 +40,13 @@ export FZF_PREVIEW_DIR='fd . {} --max-depth 1 --color always --max-results 50'
 
 _fzf_ctrl_p_cmd() {
   if git rev-parse --show-toplevel >& /dev/null; then
-    fd . $(git rev-parse --show-toplevel) 
+    fd --follow -I . $(git rev-parse --show-toplevel) 
   else 
-    fd 
+    fd --follow -I 
   fi
 }
 export FZF_CTRL_P_COMMAND="_fzf_ctrl_p_cmd"
-export FZF_CTRL_T_COMMAND="fd"
+export FZF_CTRL_T_COMMAND="fd --follow -I"
 
 __fzf_select_git__() {
   local cmd opts
@@ -88,7 +88,7 @@ z() {
 }
 
 c() {
-  TARGET=$(fd -I --type d | fzf)
+  TARGET=$(fd -I --type d --follow | fzf)
   if [ ! -z "$TARGET" ]; then
     cd $TARGET
   fi
