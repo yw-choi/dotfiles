@@ -35,7 +35,8 @@ require("lazy").setup({
   'hrsh7th/cmp-vsnip',
   'hrsh7th/vim-vsnip',
   { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
-  'ojroques/vim-oscyank'
+  'ojroques/vim-oscyank',
+  'lervag/vimtex'
 })
 
 require('lualine').setup()

@@ -40,14 +40,34 @@ export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --keep-right"
 export FZF_DEFAULT_COMMAND="fd --type f --follow"
 export FZF_PREVIEW_DIR='fd . {} --max-depth 1 --color always --max-results 50'
 
-_fzf_ctrl_t_cmd() {
+export FZF_CTRL_T_COMMAND="fd --follow -I"
+
+__fsel_git() {
   if git rev-parse --show-toplevel >& /dev/null; then
-    git rev-parse --show-toplevel | xargs git ls-files
-  else
-    fd --type f
+    local cmd="fd --follow -I . $(git rev-parse --show-toplevel)"
+  else 
+    local cmd=${FZF_CTRL_T_COMMAND}
   fi
+  setopt localoptions pipefail no_aliases 2> /dev/null
+  local item
+  eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore ${FZF_DEFAULT_OPTS-} ${FZF_CTRL_P_OPTS-}" $(__fzfcmd) -m "$@" | while read item; do
+    echo -n "${(q)item} "
+  done
+  local ret=$?
+  echo
+  return $ret
 }
-export FZF_CTRL_T_COMMAND="_fzf_ctrl_t_cmd"
+
+fzf-project-file-widget() {
+  LBUFFER="${LBUFFER}$(__fsel_git)"
+  local ret=$?
+  zle reset-prompt
+  return $ret
+}
+zle     -N            fzf-project-file-widget
+bindkey -M emacs '^P' fzf-project-file-widget
+bindkey -M vicmd '^P' fzf-project-file-widget
+bindkey -M viins '^P' fzf-project-file-widget
 
 _fzf_compgen_path() {
   fd -I --hidden --follow --exclude ".git" . "$1"
@@ -66,6 +86,13 @@ unalias z 2> /dev/null
 z() {
   [ $# -gt 0 ] && _z "$*" && return
   cd "$(_z -lt 2>&1 | tac | awk '{print $2}' | ${FZF_CMD})"
+}
+
+c() {
+  TARGET=$(fd -I --type d --follow | fzf)
+  if [ ! -z "$TARGET" ]; then
+    cd $TARGET
+  fi
 }
 
 git config --global alias.root 'rev-parse --show-toplevel'
