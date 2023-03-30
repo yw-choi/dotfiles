@@ -21,6 +21,13 @@ export LD_LIBRARY_PATH=${HOME}/local/lib64:${LD_LIBRARY_PATH}
 export EDITOR=nvim
 alias vi=nvim
 alias vim=nvim
+# if [ $VSCODE_SHELL_INTEGRATION ]; then
+#   alias vi=code
+#   alias vim=code
+# else
+#   alias vi=nvim
+#   alias vim=nvim
+# fi
 
 # common aliases
 # alias ls='exa --icons --git --sort=type'
@@ -115,6 +122,6 @@ module load cray-python espresso/7.1-libxc-6.1.0-cpu cray-hdf5-parallel cray-net
 
 export OMP_NUM_THREADS=1
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-export HISTSIZE=1000000
-export HISTFILESIZE=10000
+export HISTSIZE=20000
+export HISTFILESIZE=20000
 

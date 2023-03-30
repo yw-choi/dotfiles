@@ -192,9 +192,12 @@ vim.keymap.set('n', '<C-b>', builtin.buffers, {})
 vim.keymap.set('n', '<C-h>', builtin.help_tags, {})
 vim.keymap.set('n', '<C-e>', builtin.oldfiles, {})
 require("telescope").setup {
+  defaults = {
+    path_display = { "smart" }
+  },
   pickers = {
     find_files = {
-      find_command = { "fd", "--type", "f", "-I",}
+      find_command = { "fd", "--type", "f", "-I",},
     },
   }
 }
