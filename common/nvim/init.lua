@@ -36,7 +36,8 @@ require("lazy").setup({
   'hrsh7th/vim-vsnip',
   { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
   'ojroques/vim-oscyank',
-  'lervag/vimtex'
+  'lervag/vimtex',
+  { "bluz71/vim-nightfly-colors", name = "nightfly", lazy = false, priority = 1000 },
 })
 
 require('lualine').setup()
@@ -205,7 +206,7 @@ require("telescope").setup {
 -- 
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all" (the five listed parsers should always be installed)
-  ensure_installed = { "c", "lua", "vim", "help", "fortran", "python", "bash", },
+  ensure_installed = { "c", "lua", "vim", "fortran", "python", "bash", },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
@@ -241,8 +242,8 @@ local opt = vim.opt
 opt.relativenumber = true
 opt.number = true
 
-opt.tabstop = 2
-opt.shiftwidth = 2
+opt.tabstop = 4
+opt.shiftwidth = 4
 opt.expandtab = true
 opt.autoindent = true
 
@@ -274,7 +275,7 @@ vim.cmd("set noswapfile")
 -- colorscheme --
 -----------------
 vim.cmd("syntax on")
-vim.cmd('colorscheme rose-pine')
+vim.cmd('colorscheme nightfly')
 
 ------------
 -- keymap --
