@@ -1,6 +1,11 @@
-#!/usr/bin/env zsh
-TOPDIR=$(git rev-parse --show-toplevel)
-BASEDIR=${TOPDIR}/hosts/local
+#!/bin/sh
+brew install rg fd bat fzf pure zoxide
 
-ln -sf ${BASEDIR}/zshrc ~/.zshrc
+echo "Linking .zshrc"
+ln -sf ${PWD}/zshrc ~/.zshrc
 
+echo "Linking .config/*"
+if [ -d "~/.config" ]; then
+  mkdir ~/.config
+fi
+ln -sf ${PWD}/config/* ~/.config

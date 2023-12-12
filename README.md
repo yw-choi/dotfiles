@@ -1,16 +1,10 @@
 # dotfiles
 
-1. install
-- git
-- python3
+## Requirements
+- zsh, git, python3
+- fd, rg, bat, fzf
 - neovim
-- zsh
 
-- rg
-- fd
-
-2. run
-```sh
-./install.sh host
-```
-
+## Hosts
+- local
+- perlmutter
