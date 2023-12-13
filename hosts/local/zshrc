@@ -18,9 +18,18 @@ alias python=python3
 alias py=python3
 alias vi=nvim
 alias vim=nvim
+alias gs="git status"
 
 # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+export FZF_COMPLETION_TRIGGER='@'
+zle     -N             fzf-cd-widget
+bindkey -M emacs '^g' fzf-cd-widget
+bindkey -M vicmd '^g' fzf-cd-widget
+bindkey -M viins '^g' fzf-cd-widget
+
+
 # zoxide
 eval "$(zoxide init zsh)"
+
