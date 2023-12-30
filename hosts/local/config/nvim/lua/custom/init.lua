@@ -16,4 +16,3 @@ vim.opt.smartindent = false
 vim.g.fortran_free_source = 1
 vim.g.fortran_do_enddo = 1
 
-

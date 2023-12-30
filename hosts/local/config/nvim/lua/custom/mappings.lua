@@ -10,6 +10,12 @@ M.general = {
   },
 }
 
+M.nvimtree = {
+    n = {
+        ["<leader>n"] = {"<cmd>NvimTreeToggle<CR>", "Toggle NvimTree"}
+    }
+}
+
 -- more keybinds!
 
 return M

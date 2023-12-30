@@ -33,3 +33,6 @@ bindkey -M viins '^g' fzf-cd-widget
 # zoxide
 eval "$(zoxide init zsh)"
 
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
