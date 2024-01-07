@@ -1,0 +1,26 @@
+module load python/3.11
+
+# basic setup
+export EDITOR=nvim
+export PATH=${HOME}/local/bin:${PATH}
+
+set -o vi
+
+alias ls='ls --color=auto'
+alias l='ls -l'
+alias lsr='ls -l --sort=time'
+alias python=python3
+alias py=python3
+alias vi=nvim
+alias vim=nvim
+alias gs="git status"
+
+
+eval "$(zoxide init bash)"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export FZF_COMPLETION_TRIGGER='@'
+# ALT-C - cd into the selected directory
+bind -m emacs-standard '"\C-g": " \C-b\C-k \C-u`__fzf_cd__`\e\C-e\er\C-m\C-y\C-h\e \C-y\ey\C-x\C-x\C-d"'
+bind -m vi-command '"\C-g": "\C-z\C-g\C-z"'
+bind -m vi-insert '"\C-g": "\C-z\C-g\C-z"'

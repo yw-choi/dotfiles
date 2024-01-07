@@ -1,0 +1,30 @@
+
+
+### LINES
+# See http://matplotlib.org/api/artist_api.html#module-matplotlib.lines for more
+# information on line properties.
+lines.linewidth   : 1.0     # line width in points
+lines.linestyle   : -       # solid line
+lines.color       : C0      # has no affect on plot(); see axes.prop_cycle
+
+font.family         : sans-serif
+font.style          : normal
+font.variant        : normal
+font.weight         : medium
+font.stretch        : normal
+
+font.size           : 10.0
+
+### Legend
+legend.loc           : best
+legend.frameon       : False    # if True, draw the legend on a background patch
+legend.framealpha    : 0.8      # legend patch transparency
+legend.facecolor     : inherit  # inherit from axes.facecolor; or color spec
+legend.edgecolor     : 0.8      # background patch boundary color
+
+### FIGURE
+# See http://matplotlib.org/api/figure_api.html#matplotlib.figure.Figure
+figure.figsize   : 3, 3
+figure.dpi       : 300      # figure dots per inch
+figure.constrained_layout.use : True
+
