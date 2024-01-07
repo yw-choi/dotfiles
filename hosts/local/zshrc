@@ -11,7 +11,7 @@ export PATH=${HOME}/local/bin:${PATH}
 set -o autopushd
 bindkey -v
 
-alias ls='ls -G'
+alias ls='ls --color=auto'
 alias l='ls -l'
 alias lsr='ls -l --sort=date'
 alias python=python3
