@@ -14,7 +14,11 @@ alias py=python3
 alias vi=nvim
 alias vim=nvim
 alias gs="git status"
-
+alias gc="git commit -v"
+alias ga="git add"
+alias gp="git push"
+alias gl="git pull"
+alias lg="lazygit"
 
 eval "$(zoxide init bash)"
 
