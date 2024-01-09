@@ -5,4 +5,8 @@ return {
       colorscheme = "tokyonight-night",
     },
   },
+  {
+    "rcarriga/nvim-notify",
+    enabled = false,
+  },
 }
