@@ -34,10 +34,11 @@ bindkey -M emacs '^g' fzf-cd-widget
 bindkey -M vicmd '^g' fzf-cd-widget
 bindkey -M viins '^g' fzf-cd-widget
 
-
 # zoxide
 eval "$(zoxide init zsh)"
 
-
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
+source /opt/homebrew/opt/chruby/share/chruby/auto.sh
+chruby ruby-3.1.3 # run chruby to see actual version
