@@ -15,6 +15,8 @@ return {
             vim.list_extend(opts.ensure_installed, {
                 "fortran",
                 "python",
+                "c",
+                "cpp"
             })
             opts.indent = {
                 disable = {
