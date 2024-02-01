@@ -3,6 +3,7 @@ return {
   opts = {
     servers = {
       fortls = {},
+      clangd = {},
     },
   },
 }
