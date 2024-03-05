@@ -51,4 +51,17 @@ return {
       })
     end,
   },
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    opts = {
+      window = {
+        width = 25,
+      },
+    },
+  },
+  { "folke/zen-mode.nvim", opts = {
+    window = {
+      width = 1.0,
+    },
+  } },
 }
